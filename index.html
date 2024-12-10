@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Updated Code</title>
+<style>
+/* Сброс стилей */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	font-family: Arial, sans-serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+html, body{
+  box-sizing: border-box;
+  margin: 0;
+}
+*, *::after, *::before{
+  box-sizing: inherit;
+}
+
+/* Общий стиль для секций */
+.section, .home {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Выровнять фон .home по левой границе */
+.home {
+  background-position: left center;
+  background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTpmM2FlN2U4NC0zZDY2LTQwOGYtOTQ2Ny0yOTNjYTIxYTk2NmQ=/First%20Page.png');
+}
+
+/* Полупрозрачный слой для секций */
+.section::before, .home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Плавная прокрутка */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Контейнер для кнопки по центру экрана */
+.center-button {
+  position: absolute;
+  top: 51.6%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  overflow: visible;
+  z-index: 2;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.center-button img {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.center-button::after {
+  content: "";
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png');
+  background-size: cover;
+  transition: bottom 0.5s ease;
+  z-index: -1;
+}
+
+/* Эффект при наведении на центральную кнопку */
+.center-button:hover img {
+  transform: scale(1.1);
+}
+
+.center-button:hover::after {
+  bottom: 50px;
+}
+
+/* Хедер и прочие стили */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 40px 8.8vw;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.left-buttons, .right-button {
+  display: flex;
+  gap: 2.5vw;
+}
+
+/* Стили для иконок в верхнем блоке */
+.left-buttons img,
+.right-button img {
+  height: 70px;
+  width: auto;
+  cursor: pointer;
+  transition: transform 0.8s ease;
+}
+
+/* Стили для активных элементов с анимацией пульса */
+.left-buttons img.active,
+.right-button img.active {
+  transform: scale(1.12); 
+  animation: active-pulse 1.5s infinite alternate ease-in-out;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+@keyframes active-pulse {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+  }
+  100% {
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+  }
+}
+
+/* Ховер-эффекты с разными углами поворота */
+/* Roadmap (первая слева): против часовой стрелки */
+.left-buttons a:nth-child(1) img:hover {
+  transform: scale(1.04) rotate(-2deg);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+}
+
+/* About (вторая слева): по часовой стрелке */
+.left-buttons a:nth-child(2) img:hover {
+  transform: scale(1.06) rotate(4deg);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+}
+
+/* Contact (третья слева): против часовой стрелки */
+.left-buttons a:nth-child(3) img:hover {
+  transform: scale(1.05) rotate(-3deg);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+}
+
+/* Правая кнопка */
+.right-button a img:hover {
+  transform: scale(1.07) rotate(-3deg);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+}
+
+/* Кнопка "подняться вверх" */
+.scroll-to-top {
+  position: fixed;
+  bottom: 3vh;
+  right: 3vw;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+
+/* Когда невидима */
+.scroll-to-top.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Стили для бегущей строки */
+.marquee {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  z-index: 2;
+  background: transparent;
+  white-space: nowrap;
+  display: flex;
+}
+.marquee-content {
+  display: flex;
+  animation: marquee 20s linear infinite;
+}
+.marquee-content img {
+  display: block;
+  height: 100%;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Анимация для бегущей строки */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Адаптивная верстка */
+
+/* Планшет: ширина до 1024px */
+@media (max-width: 1024px) {
+  .header-container {
+    padding: 30px 6vw;
+  }
+
+  .left-buttons img,
+  .right-button img {
+    height: 60px;
+  }
+
+  .center-button {
+    width: 120px;
+    height: 120px;
+    left: 40%;
+  }
+
+  .header-container {
+    padding: 30px 6vw;
+  }
+}
+
+/* Телефон: ширина до 768px */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 10vw;
+    gap: 10px;
+  }
+
+  .left-buttons,
+  .right-button {
+    gap: 5vw;
+  }
+
+  .left-buttons img,
+  .right-button img {
+    height: 10px;
+  }
+
+  .center-button {
+    width: 600px;
+    height: 600px;
+    top: 40%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Центрируем кнопку "подняться вверх" по горизонтали */
+  .scroll-to-top {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+  }
+
+  .scroll-to-top {
+    width: 50px;
+    height: 50px;
+  }
+
+  .marquee {
+    height: 40px;
+  }
+
+  .marquee-content img {
+    height: 40px;
+  }
+
+  /* Мобильный фон */
+  .home {
+    background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTo3NjlhMTNlMC1iYzUyLTRjZmEtYjA2ZC05YjM0MjNmYTZlOTU=/Iphone.jpg');
+    background-position: left center;
+    background-size: cover;
+  }
+}
+
+/* Очень маленькие экраны: до 480px */
+@media (max-width: 480px) {
+  .left-buttons img,
+  .right-button img {
+    height: 40px;
+  }
+
+  .center-button {
+    width: 130px;
+    height: 130px;
+  }
+
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+  }
+
+  .marquee {
+    height: 30px;
+  }
+
+  .marquee-content img {
+    height: 30px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Главная страница -->
+<div class="home" id="home">
+  <!-- Кнопка по центру экрана с ссылкой -->
+  <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank" class="center-button" id="center-button">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Main Button">
+  </a>
+
+  <!-- Бегущая строка -->
+  <div class="marquee">
+    <div class="marquee-content">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <!-- Дублируем набор изображений для плавного зацикливания -->
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+    </div>
+  </div>
+</div>
+
+<!-- Хедер -->
+<div class="header-container">
+  <div class="left-buttons">
+    <a href="#section1" class="scroll-link">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Roadmap">
+    </a>
+    <a href="#section2" class="scroll-link">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="About">
+    </a>
+    <a href="#section3" class="scroll-link">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Contact">
+    </a>
+  </div>
+  <div class="right-button">
+    <a href="#section4" class="scroll-link">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Balenciaga">
+    </a>
+  </div>
+</div>
+
+<!-- Кнопка "подняться вверх" -->
+<a href="#home">
+  <img class="scroll-to-top hidden" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMWI2NmQyNi03YzgwLTQ3NmYtODQzMy01NTQ2ZTE5NGViODc=/arrow.svg" alt="Arrow Up">
+</a>
+
+<!-- Секции -->
+<div class="section" id="section1" style="background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTo2MjM0ZjAxNy1iMWIzLTRhMDMtYTBjMi00NTM2Y2NhMjlkMzQ=/First%20Page%20(3).png');"></div>
+<div class="section" id="section2" style="background-image: url('https://via.placeholder.com/1920x1080/ADD8E6/333333?text=Section+2');"></div>
+<div class="section" id="section3" style="background-image: url('https://via.placeholder.com/1920x1080/FFB6C1/333333?text=Section+3');"></div>
+<div class="section" id="section4" style="background-image: url('https://via.placeholder.com/1920x1080/90EE90/333333?text=Section+4');"></div>
+
+<script>
+  // Слушаем клик по центральной кнопке
+  const centerButton = document.getElementById('center-button');
+  
+  centerButton.addEventListener('click', function () {
+    centerButton.classList.add('active-button');
+  });
+
+  // Отслеживаем активность кнопок при скролле
+  const sectionButtons = document.querySelectorAll('.left-buttons a, .right-button a');
+  
+  function updateActiveButtons() {
+    sectionButtons.forEach((button, index) => {
+      const section = document.querySelector(`#section${index + 1}`);
+      const rect = section.getBoundingClientRect();
+      const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+      if (isInViewport) {
+        button.querySelector('img').classList.add('active');
+      } else {
+        button.querySelector('img').classList.remove('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveButtons);
+  updateActiveButtons();
+
+  // Появление/исчезновение кнопки "вверх"
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+  function toggleScrollToTopButton() {
+    const scrollY = window.scrollY;
+    if (scrollY < 10) {
+      scrollToTopBtn.classList.add('hidden');
+    } else {
+      scrollToTopBtn.classList.remove('hidden');
+    }
+  }
+
+  window.addEventListener('scroll', toggleScrollToTopButton);
+  toggleScrollToTopButton();
+</script>
+</body>
+</html>
