@@ -66,6 +66,14 @@ html, body{
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.section.visible, .home.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Выровнять фон .home по левой границе */
@@ -429,22 +437,42 @@ html {
 </a>
 
 <!-- Секции -->
-<div class="section" id="section1" style="background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTo2MjM0ZjAxNy1iMWIzLTRhMDMtYTBjMi00NTM2Y2NhMjlkMzQ=/First%20Page%20(3).png');"></div>
-<div class="section" id="section2" style="background-image: url('https://via.placeholder.com/1920x1080/ADD8E6/333333?text=Section+2');"></div>
-<div class="section" id="section3" style="background-image: url('https://via.placeholder.com/1920x1080/FFB6C1/333333?text=Section+3');"></div>
-<div class="section" id="section4" style="background-image: url('https://via.placeholder.com/1920x1080/90EE90/333333?text=Section+4');"></div>
+<div class="section" id="section1">
+  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+    <source src="https://example.com/video1.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<div class="section" id="section2">
+  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+    <source src="https://example.com/video2.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<div class="section" id="section3">
+  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+    <source src="https://example.com/video3.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<div class="section" id="section4">
+  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+    <source src="https://example.com/video4.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</div>
 
 <script>
   // Слушаем клик по центральной кнопке
   const centerButton = document.getElementById('center-button');
-  
+
   centerButton.addEventListener('click', function () {
     centerButton.classList.add('active-button');
   });
 
   // Отслеживаем активность кнопок при скролле
   const sectionButtons = document.querySelectorAll('.left-buttons a, .right-button a');
-  
+
   function updateActiveButtons() {
     sectionButtons.forEach((button, index) => {
       const section = document.querySelector(`#section${index + 1}`);
@@ -476,6 +504,22 @@ html {
 
   window.addEventListener('scroll', toggleScrollToTopButton);
   toggleScrollToTopButton();
+
+  // Появление секций при скролле
+  const sections = document.querySelectorAll('.section, .home');
+
+  function showSectionsOnScroll() {
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.75) {
+        section.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', showSectionsOnScroll);
+  showSectionsOnScroll();
 </script>
 </body>
 </html>
+
