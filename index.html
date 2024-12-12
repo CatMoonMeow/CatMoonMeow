@@ -356,26 +356,127 @@
       top: 25%;
     }
     .volume-icon {
-  width: 24px; /* Задайте желаемый размер изображения */
-  height: 24px;
-  display: block;
+      width: 24px;
+      height: 24px;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .volume-control {
+      position: relative;
+    }
+
+    .volume-slider-container {
+      position: absolute;
+      top: 90px; 
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 8px;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+    }
+
+    .volume-slider-container.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    #volume-slider {
+      -webkit-appearance: none;
+      writing-mode: vertical-rl;
+      direction: rtl;
+      width: 8px;
+      height: 100px;
+      background: #aa109d;
+      border-radius: 5px;
+      outline: none;
+    }
+#volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 100px;
+  background: linear-gradient(to top, white 0%, white var(--slider-progress, 0%), #aa109d var(--slider-progress, 0%), #aa109d 100%);
+  border-radius: 5px;
+  outline: none;
+  position: relative;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #000;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
-.volume-control {
-  position: relative; /* Устанавливаем контейнер как родитель для абсолютного позиционирования */
+#volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #000;
+  cursor: pointer;
 }
 
-.volume-slider-container {
-  position: absolute;
-  top: 50%;
-  left: 20%; /* Смещение ползунка справа от иконки */
-  transform: translateY(-50%);
+#volume-slider::-moz-range-progress {
+  background: white;
+  border-radius: 5px;
 }
-.volume-icon:hover {
-  transform: scale(1.2); /* Легкое увеличение при наведении */
+
+#volume-slider::-moz-range-track {
+  background: #aa109d;
+  border-radius: 5px;
 }
+
+#volume-slider::-ms-fill-lower {
+  background: white;
+  border-radius: 5px;
+}
+
+#volume-slider::-ms-fill-upper {
+  background: #aa109d;
+  border-radius: 5px;
+}
+
+    #volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #000;
+    }
+
+    #volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: #ff4800;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #000;
+    }
+
+    .volume-slider-container::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      right: 10px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent rgba(0, 0, 0, 0.7) transparent;
+    }
 
     .section2-buttons {
       position: absolute;
@@ -492,7 +593,16 @@
       height: 100%; 
       object-fit: cover;
     }
-    
+    #volume-button {
+  padding: 0;
+  box-shadow: none;
+}
+
+    #volume-button {
+  background: none;
+  border: none;
+}
+
     .home-button {
       position: fixed;
       bottom: 8vh;
@@ -508,104 +618,6 @@
       height: auto;
     }
     
-    #play-music-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    #play-music-button {
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    #play-music-button:hover {
-      background-color: rgba(255, 255, 255, 1);
-    }
-
-    .volume-control {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .volume-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 24px; 
-      z-index: 1001; 
-    }
-
-    .volume-slider-container {
-      position: absolute;
-      top: 90px; 
-      right: ;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 8px;
-      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-    }
-
-    .volume-slider-container.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    #volume-slider {
-  -webkit-appearance: none;
-  writing-mode: vertical-rl;
-  direction: rtl; /* Изменяет направление */
-  width: 8px;
-  height: 100px;
-  background: #aa109d;
-  border-radius: 5px;
-  outline: none;
-}
-
-#volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #ffffff;
-  cursor: pointer;
-  border-radius: 50%;
-  border: 2px solid #000;
-}
-
-#volume-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #ac128a;
-  cursor: pointer;
-  border-radius: 50%;
-  border: 2px solid #000;
-}
-
-
-    .volume-slider-container::before {
-      content: '';
-      position: absolute;
-      bottom: 100%;
-      right: 10px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: transparent transparent rgba(0, 0, 0, 0.7) transparent;
-    }
   </style>
 </head>
 <body>
@@ -620,10 +632,6 @@
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiOWI3MjQwNS0xYjM4LTQwNTctYjA0MS02NzM5YTIxZjdmYTM=/ES_Japa%20Waves%20-%20By%20Lotus.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
-  
-  <div id="play-music-container">
-    <button id="play-music-button">▶️ Play Music</button>
-  </div>
   
   <div class="header-container">
     <div class="left-buttons">
@@ -746,29 +754,29 @@
   
   <script>
     const music = document.getElementById('background-music');
-    const playMusicButton = document.getElementById('play-music-button');
-    const playMusicContainer = document.getElementById('play-music-container');
     const volumeButton = document.getElementById('volume-button');
     const volumeSliderContainer = document.getElementById('volume-slider-container');
     const volumeSlider = document.getElementById('volume-slider');
 
-    function playMusic() {
-      music.volume = parseFloat(volumeSlider.value); 
-      music.play().then(() => {
-        playMusicContainer.style.display = 'none';
-      }).catch((error) => {
-        console.log('Music playback was blocked:', error);
-        alert('Пожалуйста, нажмите кнопку "▶️ Play Music", чтобы включить фоновую музыку.');
-      });
-    }
-
-    playMusicButton.addEventListener('click', () => {
-      playMusic();
-    });
+    let isMusicPlaying = false;
 
     volumeButton.addEventListener('click', (e) => {
       e.stopPropagation();
-      volumeSliderContainer.classList.toggle('visible');
+      if (!isMusicPlaying) {
+        // Включаем музыку
+        music.volume = parseFloat(volumeSlider.value);
+        music.play().then(() => {
+          isMusicPlaying = true;
+          volumeSliderContainer.classList.add('visible');
+        }).catch((error) => {
+          console.log('Music playback was blocked:', error);
+        });
+      } else {
+        // Останавливаем музыку
+        music.pause();
+        isMusicPlaying = false;
+        volumeSliderContainer.classList.remove('visible');
+      }
     });
 
     volumeSlider.addEventListener('input', (e) => {
