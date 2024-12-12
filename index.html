@@ -1,525 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MEOW</title>
-<!-- Иконка сайта -->
-<link rel="icon" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png" type="image/png">
-
-<style>
-/* Сброс стилей */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-	font-family: Arial, sans-serif;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-html, body{
-  box-sizing: border-box;
-  margin: 0;
-}
-*, *::after, *::before{
-  box-sizing: inherit;
-}
-
-/* Общий стиль для секций */
-.section, .home {
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: relative;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.section.visible, .home.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Выровнять фон .home по левой границе */
-.home {
-  background-position: left center;
-  background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTphNDdjN2VhOC03MmZjLTRhYTUtYjNkZC03YmIxYWUzYjQzYzc=/First%20Page%20(4).webp');
-}
-
-/* Полупрозрачный слой для секций */
-.section::before, .home::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-/* Плавная прокрутка */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Контейнер для кнопки по центру экрана */
-.center-button {
-  position: absolute;
-  top: 51.6%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  width: 150px;
-  height: 150px;
-  cursor: pointer;
-  overflow: visible;
-  z-index: 2;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.center-button img {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.3s ease;
-}
-
-.center-button::after {
-  content: "";
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png');
-  background-size: cover;
-  transition: bottom 0.5s ease;
-  z-index: -1;
-}
-
-/* Эффект при наведении на центральную кнопку */
-.center-button:hover img {
-  transform: scale(1.1);
-}
-
-.center-button:hover::after {
-  bottom: 50px;
-}
-
-/* Хедер и прочие стили */
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 40px 8.8vw;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-
-.left-buttons, .right-button {
-  display: flex;
-  gap: 2.5vw;
-}
-
-/* Стили для иконок в верхнем блоке */
-.left-buttons img,
-.right-button img {
-  height: 70px;
-  width: auto;
-  cursor: pointer;
-  transition: transform 0.8s ease;
-}
-
-/* Стили для активных элементов с анимацией пульса */
-.left-buttons img.active,
-.right-button img.active {
-  transform: scale(1.12); 
-  animation: active-pulse 1.5s infinite alternate ease-in-out;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-@keyframes active-pulse {
-  0% {
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
-  }
-  100% {
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
-  }
-}
-
-/* Ховер-эффекты с разными углами поворота */
-/* Roadmap (первая слева): против часовой стрелки */
-.left-buttons a:nth-child(1) img:hover {
-  transform: scale(1.04) rotate(-2deg);
-  transition: transform 0.4s ease, filter 0.4s ease;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
-}
-
-/* About (вторая слева): по часовой стрелке */
-.left-buttons a:nth-child(2) img:hover {
-  transform: scale(1.06) rotate(4deg);
-  transition: transform 0.4s ease, filter 0.4s ease;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
-}
-
-/* Contact (третья слева): против часовой стрелки */
-.left-buttons a:nth-child(3) img:hover {
-  transform: scale(1.05) rotate(-3deg);
-  transition: transform 0.4s ease, filter 0.4s ease;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
-}
-
-/* Правая кнопка */
-.right-button a img:hover {
-  transform: scale(1.07) rotate(-3deg);
-  transition: transform 0.4s ease, filter 0.4s ease;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
-}
-
-/* Кнопка "подняться вверх" */
-.scroll-to-top {
-  position: fixed;
-  bottom: 3vh;
-  right: 3vw;
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  animation: float 3s ease-in-out infinite;
-  z-index: 999;
-  transition: opacity 0.3s ease;
-}
-
-/* Когда невидима */
-.scroll-to-top.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Стили для бегущей строки */
-.marquee {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  overflow: hidden;
-  z-index: 2;
-  background: transparent;
-  white-space: nowrap;
-  display: flex;
-}
-.marquee-content {
-  display: flex;
-  animation: marquee 20s linear infinite;
-}
-.marquee-content img {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MEOW</title>
+  <link rel="icon" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png" type="image/png">
+  
+  <style>
+    /* CSS Reset */
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+      font-family: Arial, sans-serif;
+      overflow: hidden; /* Remove scrolling */
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after, q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    html, body{
+      box-sizing: border-box;
+      margin: 0;
+    }
+    *, *::after, *::before{
+      box-sizing: inherit;
+    }
+    
+    .section, .home {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0;
+      display: none;
+      transition: opacity 0.8s ease;
+      z-index: 1; 
+    }
+    .section.visible, .home.visible {
+      display: block;
+      opacity: 1;
+    }
+    
+    
+    .home {
+      background-position: 50% 60%;
+      background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTphNDdjN2VhOC03MmZjLTRhYTUtYjNkZC03YmIxYWUzYjQzYzc=/First%20Page%20(4).webp');
+      z-index: 2; 
+    }
+    
+    .section::before, .home::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1; 
+      pointer-events: none;
+    }
+    
+    .center-button {
+      position: absolute;
+      top: 49.6%;
+      left: 30%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      cursor: pointer;
+      overflow: visible;
+      z-index: 3; 
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .center-button img {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s ease;
+    }
+    .center-button::after {
+      content: "";
+      position: absolute;
+      bottom: 22px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png');
+      background-size: cover;
+      transition: bottom 0.5s ease;
+      z-index: -1;
+    }
+    .center-button:hover img {
+      transform: scale(1.1);
+    }
+    .center-button:hover::after {
+      bottom: 80px;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 40px 8.8vw;
+      box-sizing: border-box;
+      z-index: 1000; 
+    }
+    .left-buttons, .right-button {
+      display: flex;
+      gap: 2.5vw;
+    }
+    
+    .left-buttons img,
+    .right-button img {
+      height: 70px;
+      width: auto;
+      cursor: pointer;
+      transition: transform 0.8s ease;
+    }
+    
+    .left-buttons img.active,
+    .right-button img.active {
+      transform: scale(1.12); 
+      animation: active-pulse 1.5s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    
+    @keyframes active-pulse {
+      0% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      }
+      100% {
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+      }
+    }
+    
+    .left-buttons a:nth-child(1) img:hover {
+      transform: scale(1.04) rotate(-2deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .left-buttons a:nth-child(2) img:hover {
+      transform: scale(1.06) rotate(4deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .left-buttons a:nth-child(3) img:hover {
+      transform: scale(1.05) rotate(-3deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .right-button a img:hover {
+      transform: scale(1.07) rotate(-3deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    
+    .marquee {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      overflow: hidden;
+      z-index: 4; 
+      background: transparent;
+      white-space: nowrap;
+      display: flex;
+    }
+    .marquee-content {
+      display: flex;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-content img {
+      display: block;
+      height: 100%;
+      flex-shrink: 0;
+    }
+    
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+    
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    @keyframes pulsate {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    .pulsate {
+      animation: pulsate 2s infinite;
+    }
+    
+    @media (max-width: 1024px) {
+      .header-container {
+        padding: 30px 6vw;
+      }
+    
+      .left-buttons img,
+      .right-button img {
+        height: 60px;
+      }
+    
+      .center-button {
+        width: 120px;
+        height: 120px;
+        left: 40%;
+      }
+    
+      .section1-right-container {
+        width: 600px;
+        height: 550px;
+      }
+      .dev-logo-main-right {
+        width: 30%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 10vw;
+        gap: 10px;
+      }
+    
+      .left-buttons,
+      .right-button {
+        gap: 5vw;
+      }
+    
+      .left-buttons img,
+      .right-button img {
+        height: 10px;
+      }
+    
+      .center-button {
+        width: 600px;
+        height: 600px;
+        top: 40%;
+        left: 80%;
+        transform: translate(-50%, -50%);
+      }
+    
+      .marquee {
+        height: 40px;
+      }
+    
+      .marquee-content img {
+        height: 40px;
+      }
+    
+      .section1-right-container {
+        width: 500px;
+        height: 450px;
+      }
+      .dev-logo-main-right {
+        width: 25%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .left-buttons img,
+      .right-button img {
+        height: 40px;
+      }
+    
+      .center-button {
+        width: 130px;
+        height: 130px;
+      }
+    
+      .marquee {
+        height: 30px;
+      }
+    
+      .marquee-content img {
+        height: 30px;
+      }
+    
+      .section1-right-container {
+        width: 300px;
+        height: 300px;
+      }
+      .dev-logo-main-right {
+        width: 20%;
+      }
+    }
+    
+    .section2-images {
+      position: absolute;
+      top: 30%;
+      transform: translateY(-50%);
+      width: 39%;
+      z-index: 2;
+    }
+    .section2-images.left {
+      left: 5%;
+      top: 15%;
+    }
+    .section2-images.right {
+      right: 10%;
+      top: 25%;
+    }
+    .volume-icon {
+  width: 24px; /* Задайте желаемый размер изображения */
+  height: 24px;
   display: block;
-  height: 100%;
-  flex-shrink: 0;
-  margin: 0;
-  padding: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-/* Анимация для бегущей строки */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.volume-control {
+  position: relative; /* Устанавливаем контейнер как родитель для абсолютного позиционирования */
 }
 
-/* Адаптивная верстка */
-
-/* Планшет: ширина до 1024px */
-@media (max-width: 1024px) {
-  .header-container {
-    padding: 30px 6vw;
-  }
-
-  .left-buttons img,
-  .right-button img {
-    height: 60px;
-  }
-
-  .center-button {
-    width: 120px;
-    height: 120px;
-    left: 40%;
-  }
-
-  .header-container {
-    padding: 30px 6vw;
-  }
+.volume-slider-container {
+  position: absolute;
+  top: 50%;
+  left: 20%; /* Смещение ползунка справа от иконки */
+  transform: translateY(-50%);
+}
+.volume-icon:hover {
+  transform: scale(1.2); /* Легкое увеличение при наведении */
 }
 
-/* Телефон: ширина до 768px */
-@media (max-width: 768px) {
-  .header-container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 15px 10vw;
-    gap: 10px;
-  }
+    .section2-buttons {
+      position: absolute;
+      bottom: 2.5%;
+      left: 56%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 70px;
+      z-index: 3; 
+    }
+    .section2-buttons a img {
+      width: 90px; 
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .section2-buttons a img:hover {
+      transform: scale(1.1);
+    }
+    
+    #section1 {
+      background-image: none;
+      background-size: cover;
+      background-position: center;
+      z-index: 3; 
+    }
+    .section1-left-container {
+      position: absolute;
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 745px;
+      height: 683px;
+      z-index: 4; 
+    }
+    .dev-logo-main {
+      position: absolute;
+      top: -90px;
+      left: 190px;
+      width: 38%;
+      display: block;
+      z-index: 3; 
+    }
+    .dev-rotation-elements {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      width: 120%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      z-index: 1; 
+    }
+    .dev-rotation-elements.pulsate {
+      animation: pulsate 6s infinite;
+    }
+    
+    .section1-right-container {
+      position: absolute;
+      right: 250px;
+      top: 50%;
+      transform: translateY(-70%);
+      width: 400px; 
+      height: 400px; 
+      z-index: 4; 
+    }
+    
+    .dev-logo-main-right {
+      position: absolute;
+      top: -220px;
+      left: 100px;
+      width: 75%;
+      display: block;
+      z-index: 3; 
+    }
+    
+    .dev-rotation-elements-right {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      width: 120%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      z-index: 1; 
+    }
+    .dev-rotation-elements-right.pulsate {
+      animation: pulsate 6s infinite;
+    }
+    
+    #section3, #section4 {
+      background-size: cover;
+      background-position: center;
+      z-index: 3; 
+    }
+    #section3 video,
+    #section4 video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 4; 
+    }
+    
+    #transition-overlay {
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 100000; 
+      background: transparent;
+    }
+    #transition-video {
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover;
+    }
+    
+    .home-button {
+      position: fixed;
+      bottom: 8vh;
+      right: 3vw;
+      width: 60px;
+      height: 60px;
+      z-index: 10000; 
+      cursor: pointer;
+    }
+    
+    .home-button.scroll-link img {
+      width: 100%;
+      height: auto;
+    }
+    
+    #play-music-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #play-music-button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #play-music-button:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
 
-  .left-buttons,
-  .right-button {
-    gap: 5vw;
-  }
+    .volume-control {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  .left-buttons img,
-  .right-button img {
-    height: 10px;
-  }
+    .volume-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px; 
+      z-index: 1001; 
+    }
 
-  .center-button {
-    width: 600px;
-    height: 600px;
-    top: 40%;
-    left: 80%;
-    transform: translate(-50%, -50%);
-  }
+    .volume-slider-container {
+      position: absolute;
+      top: 90px; 
+      right: ;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 8px;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+    }
 
-  /* Центрируем кнопку "подняться вверх" по горизонтали */
-  .scroll-to-top {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-  }
+    .volume-slider-container.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
 
-  .scroll-to-top {
-    width: 50px;
-    height: 50px;
-  }
-
-  .marquee {
-    height: 40px;
-  }
-
-  .marquee-content img {
-    height: 40px;
-  }
-
-  /* Мобильный фон */
-  .home {
-    background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTo3NjlhMTNlMC1iYzUyLTRjZmEtYjA2ZC05YjM0MjNmYTZlOTU=/Iphone.jpg');
-    background-position: left center;
-    background-size: cover;
-  }
+    #volume-slider {
+  -webkit-appearance: none;
+  writing-mode: vertical-rl;
+  direction: rtl; /* Изменяет направление */
+  width: 8px;
+  height: 100px;
+  background: #aa109d;
+  border-radius: 5px;
+  outline: none;
 }
 
-/* Очень маленькие экраны: до 480px */
-@media (max-width: 480px) {
-  .left-buttons img,
-  .right-button img {
-    height: 40px;
-  }
-
-  .center-button {
-    width: 130px;
-    height: 130px;
-  }
-
-  .scroll-to-top {
-    width: 40px;
-    height: 40px;
-  }
-
-  .marquee {
-    height: 30px;
-  }
-
-  .marquee-content img {
-    height: 30px;
-  }
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #000;
 }
-</style>
+
+#volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ac128a;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #000;
+}
+
+
+    .volume-slider-container::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      right: 10px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent rgba(0, 0, 0, 0.7) transparent;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Главная страница -->
-<div class="home" id="home">
-  <!-- Кнопка по центру экрана с ссылкой -->
-  <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank" class="center-button" id="center-button">
-    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Main Button">
-  </a>
-
-  <!-- Бегущая строка -->
-  <div class="marquee">
-    <div class="marquee-content">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <!-- Дублируем набор изображений для плавного зацикливания -->
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+  <div id="transition-overlay">
+    <video id="transition-video" preload="auto">
+      <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiNDlmODcyYi1iZGZiLTQyNjctYmYxNi00Y2Q3N2E0MjVhOWM=/Organic_10_2.webm" type="video/webm">
+    </video>
+  </div>
+  
+  <audio id="background-music" loop preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiOWI3MjQwNS0xYjM4LTQwNTctYjA0MS02NzM5YTIxZjdmYTM=/ES_Japa%20Waves%20-%20By%20Lotus.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <div id="play-music-container">
+    <button id="play-music-button">▶️ Play Music</button>
+  </div>
+  
+  <div class="header-container">
+    <div class="left-buttons">
+      <a href="#section1" class="scroll-link">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Roadmap">
+      </a>
+      <a href="#section2" class="scroll-link">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="About">
+      </a>
+      <a href="#section3" class="scroll-link">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Contact">
+      </a>
+    </div>
+    <div class="right-button">
+      <a href="#section4" class="scroll-link">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Balenciaga">
+      </a>
+      
+      <div class="volume-control">
+        <button id="volume-button" class="volume-button">
+          <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjM2QyYTg3Yy1mNmJiLTRmNzktYWQ1Yi1hMWM4OTBhYjZmYjE=/2618115.png" alt="Volume Icon" class="volume-icon">
+        </button>
+        <div id="volume-slider-container" class="volume-slider-container hidden">
+          <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.2">
+        </div>
+      </div>
+      
+      
     </div>
   </div>
-</div>
-
-<!-- Хедер -->
-<div class="header-container">
-  <div class="left-buttons">
-    <a href="#section1" class="scroll-link">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Roadmap">
+  
+  <a href="#home" class="home-button scroll-link" id="home-button">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMWI2NmQyNi03YzgwLTQ3NmYtODQzMy01NTQ2ZTE5NGViODc=/arrow.svg" alt="Home Button">
+  </a>
+  
+  <div class="home visible" id="home">
+    <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank" class="center-button" id="center-button">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Main Button">
     </a>
-    <a href="#section2" class="scroll-link">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="About">
-    </a>
-    <a href="#section3" class="scroll-link">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Contact">
-    </a>
+  
+    <div class="marquee">
+      <div class="marquee-content">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      </div>
+    </div>
   </div>
-  <div class="right-button">
-    <a href="#section4" class="scroll-link">
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Balenciaga">
-    </a>
+  
+  <div class="section" id="section1">
+    <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo4YTY3YmU4OC0yYTI3LTRmYWMtOTRhYy1kMzNhNmNjNjMwMGI=/Third%20Page%20(2)_1.webm" type="video/webm">
+    </video>
+    
+    <div class="section1-left-container fade-in visible">
+      <img class="dev-logo-main" src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyYjNkNDU2Zi1lMjQ2LTQ3ZDEtYWUyZS0xMTNjZGU0YmY1ZDk=/DEV_LOGO_MAIN.svg" alt="Dev Logo Main" />
+      <img class="dev-rotation-elements fade-in pulsate visible" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmODkzYjM0Yy1hZWZhLTQxYmMtODZlOS1mZWIyMTkxZDk1OTY=/DEV_ROTATION_ELEMENTS.svg" alt="Dev Rotation Elements" />
+    </div>
+    
+    <div class="section1-right-container fade-in visible">
+      <img class="dev-logo-main-right" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3N2M1YWEwOC1jY2Y1LTQwYTItODdhOS02MmY0ODZiZWQ3OGM=/Group%2034.svg" alt="New Dev Logo Main Right" />
+      <img class="dev-rotation-elements-right fade-in pulsate visible" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplZWRhMzA4ZS1iYmVmLTRmODItYTUwMS1jMDdlMjliYTMzNGE=/Group%2034%20(4).svg" alt="New Dev Rotation Elements Right" />
+    </div>
+    
+    <div class="marquee">
+      <div class="marquee-content">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      </div>
+    </div>
   </div>
-</div>
+  
+  <div class="section" id="section2">
+    <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTowNDBkZjE1MC0wMTZiLTRmM2MtYmFjMS1kOTMxMmU3NWZlNzg=/Third%20Page%20(1).webm" type="video/webm">
+    </video>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo2YzFkNTAxYi0wZjdkLTQ2ODMtOTI1ZS1hYWMzMjcxOGU3Yjk=/left.svg" alt="Left Image" class="section2-images left fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo4ZWJmY2RlNC0wMmZhLTQ1MDYtYjk3NS0zMGY0NjVmNzA3MjE=/Right.svg" alt="Right Image" class="section2-images right fade-in visible"/>
+    
+    <div class="section2-buttons fade-in visible">
+      <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0NzEwYzAxNi0yODIyLTRmN2ItYTc3Mi0zYmEwNTVkMzVhNTk=/3.svg" alt="Button 1">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZTE4NTIyNy1lNzhjLTRkMzctYTYwOS0wMTJiYWJlNzk5MTI=/2.svg" alt="Button 2">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZDMwYzU0NC0yY2U1LTQ5OTMtOTgzMS1kZjJjMzQ4YWYyZDE=/1.svg" alt="Button 3">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiMzhhODBhYS05OWI3LTRmMjUtOWEwZS0yNTAwMDY3MzkxODc=/4.svg" alt="Button 4">
+      </a>
+    </div>
+  </div>
+  
+  <div class="section" id="section3">
+    <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="https://example.com/video3.webm" type="video/webm">
+    </video>
+  </div>
+  
+  <div class="section" id="section4">
+    <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="https://example.com/video4.webm" type="video/webm">
+    </video>
+  </div>
+  
+  <script>
+    const music = document.getElementById('background-music');
+    const playMusicButton = document.getElementById('play-music-button');
+    const playMusicContainer = document.getElementById('play-music-container');
+    const volumeButton = document.getElementById('volume-button');
+    const volumeSliderContainer = document.getElementById('volume-slider-container');
+    const volumeSlider = document.getElementById('volume-slider');
 
-<!-- Кнопка "подняться вверх" -->
-<a href="#home">
-  <img class="scroll-to-top hidden" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMWI2NmQyNi03YzgwLTQ3NmYtODQzMy01NTQ2ZTE5NGViODc=/arrow.svg" alt="Arrow Up">
-</a>
-
-<!-- Секции -->
-<div class="section" id="section1">
-  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-    <source src="https://example.com/video1.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
-</div>
-<div class="section" id="section2">
-  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-    <source src="https://example.com/video2.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
-</div>
-<div class="section" id="section3">
-  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-    <source src="https://example.com/video3.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
-</div>
-<div class="section" id="section4">
-  <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
-    <source src="https://example.com/video4.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
-</div>
-
-<script>
-  // Слушаем клик по центральной кнопке
-  const centerButton = document.getElementById('center-button');
-
-  centerButton.addEventListener('click', function () {
-    centerButton.classList.add('active-button');
-  });
-
-  // Отслеживаем активность кнопок при скролле
-  const sectionButtons = document.querySelectorAll('.left-buttons a, .right-button a');
-
-  function updateActiveButtons() {
-    sectionButtons.forEach((button, index) => {
-      const section = document.querySelector(`#section${index + 1}`);
-      const rect = section.getBoundingClientRect();
-      const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
-
-      if (isInViewport) {
-        button.querySelector('img').classList.add('active');
-      } else {
-        button.querySelector('img').classList.remove('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateActiveButtons);
-  updateActiveButtons();
-
-  // Появление/исчезновение кнопки "вверх"
-  const scrollToTopBtn = document.querySelector('.scroll-to-top');
-
-  function toggleScrollToTopButton() {
-    const scrollY = window.scrollY;
-    if (scrollY < 10) {
-      scrollToTopBtn.classList.add('hidden');
-    } else {
-      scrollToTopBtn.classList.remove('hidden');
+    function playMusic() {
+      music.volume = parseFloat(volumeSlider.value); 
+      music.play().then(() => {
+        playMusicContainer.style.display = 'none';
+      }).catch((error) => {
+        console.log('Music playback was blocked:', error);
+        alert('Пожалуйста, нажмите кнопку "▶️ Play Music", чтобы включить фоновую музыку.');
+      });
     }
-  }
 
-  window.addEventListener('scroll', toggleScrollToTopButton);
-  toggleScrollToTopButton();
+    playMusicButton.addEventListener('click', () => {
+      playMusic();
+    });
 
-  // Появление секций при скролле
-  const sections = document.querySelectorAll('.section, .home');
+    volumeButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      volumeSliderContainer.classList.toggle('visible');
+    });
 
-  function showSectionsOnScroll() {
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= window.innerHeight * 0.75) {
-        section.classList.add('visible');
+    volumeSlider.addEventListener('input', (e) => {
+      music.volume = parseFloat(e.target.value);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!volumeSliderContainer.contains(e.target) && e.target !== volumeButton) {
+        volumeSliderContainer.classList.remove('visible');
       }
     });
-  }
 
-  window.addEventListener('scroll', showSectionsOnScroll);
-  showSectionsOnScroll();
-</script>
+    window.addEventListener('load', () => {
+      music.volume = parseFloat(volumeSlider.value);
+      volumeSliderContainer.classList.remove('visible');
+    });
+
+    let currentSection = document.getElementById('home');
+
+    function switchSection(newSectionId) {
+      const newSection = document.getElementById(newSectionId.replace('#',''));
+      if (!newSection || newSection === currentSection) return;
+
+      currentSection.classList.remove('visible');
+      newSection.classList.add('visible');
+      currentSection = newSection;
+    }
+
+    const overlay = document.getElementById('transition-overlay');
+    const transitionVideo = document.getElementById('transition-video');
+
+    overlay.style.display = 'none';
+
+    transitionVideo.addEventListener('ended', () => {
+      overlay.style.display = 'none';
+    });
+
+    document.querySelectorAll('.scroll-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+
+        if (currentSection.id === targetId.replace('#','')) return;
+
+        transitionVideo.pause();
+        transitionVideo.currentTime = 0;
+        transitionVideo.load();
+
+        overlay.style.display = 'block';
+        transitionVideo.play();
+
+        setTimeout(() => {
+          switchSection(targetId);
+          
+          if (targetId === '#home') {
+            document.getElementById('home-button').style.display = 'none';
+          } else {
+            document.getElementById('home-button').style.display = 'block';
+          }
+        }, 1600);
+      });
+    });
+
+    const centerButton = document.getElementById('center-button');
+    centerButton.addEventListener('click', function () {
+      centerButton.classList.add('active-button');
+    });
+
+    const section1 = document.querySelector('#section1');
+    const devRotation = document.querySelector('.dev-rotation-elements');
+    const devRotationRight = document.querySelector('.dev-rotation-elements-right');
+    if (section1 && devRotation && devRotationRight) {
+      section1.addEventListener('mousemove', (e) => {
+        const rect = section1.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * 10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        
+        devRotation.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        devRotationRight.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+    }
+
+    window.addEventListener('load', () => {
+      if (currentSection.id === 'home') {
+        document.getElementById('home-button').style.display = 'none';
+      }
+    });
+  </script>
+  
 </body>
 </html>
-
