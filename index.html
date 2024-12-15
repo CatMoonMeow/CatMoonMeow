@@ -6,11 +6,9 @@
   <title>MEOW</title>
   <link rel="icon" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png" type="image/png">
   
-  <!-- Предзагрузка нового основного фонового видео -->
   <link rel="preload" as="video" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5ZTk2NDJlZi1iMGJmLTQ5ZTItYTJiMi02OGEyMDZlZjJjZmM=/MAIN%20BG.webm">
 
   <style>
-    /* CSS Reset */
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -38,7 +36,7 @@
     body {
       line-height: 1;
       font-family: Arial, sans-serif;
-      overflow: hidden; /* Удаление прокрутки */
+      overflow: hidden;
       position: relative;
     }
     ol, ul {
@@ -63,7 +61,6 @@
       box-sizing: inherit;
     }
     
-    /* Фоновое Видео Главной Страницы */
     #background-video {
       position: fixed;
       top: 0;
@@ -71,24 +68,22 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 1; /* На заднем плане */
-      pointer-events: none; /* Позволяет взаимодействовать с элементами поверх видео */
+      z-index: 1;
+      pointer-events: none;
     }
 
-    /* Уменьшение изображения на загрузочной странице */
     #loading-overlay img {
-      width: 70px; /* Установите нужное значение в зависимости от исходного размера */
+      width: 70px;
       height: auto;
     }
 
-    /* Loading Screen Styles */
     #loading-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.95); /* Полупрозрачный чёрный фон */
+      background-color: rgba(0, 0, 0, 0.95);
       z-index: 100000; 
       display: flex;
       align-items: center;
@@ -103,11 +98,10 @@
       pointer-events: none;
     }
 
-    /* Контейнер для прогресс-бара и движущегося изображения */
     #loading-container {
       position: relative;
       width: 80%;
-      max-width: 600px; /* Настройте по необходимости */
+      max-width: 600px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -115,7 +109,6 @@
       flex-direction: column;
     }
 
-    /* Прогресс-бар */
     #loading-progress {
       width: 100%;
       height: 20px;
@@ -132,29 +125,27 @@
       transition: width 0.3s ease;
     }
 
-    /* Движущееся изображение */
     #loading-image {
       position: absolute;
-      bottom: 58%; /* Позиционируем изображение относительно прогресс-бара */
+      bottom: 58%;
       left: 0%;
-      transform: translate(-50%, 50%); /* Центрируем по вертикали */
+      transform: translate(-50%, 50%);
       transition: left 0.3s ease;
-      width: 70px; /* Установите нужное значение */
+      width: 70px;
       height: auto;
       z-index: 100002;
     }
 
-    /* Proceed Button */
     #proceed-button {
       margin-top: 30px;
       background: none;
       border: none;
       cursor: pointer;
-      display: none; /* Изначально скрыто */
-      z-index: 100002; /* Увеличен z-index для выше слоя */
+      display: none;
+      z-index: 100002;
     }
     #proceed-button img {
-      width: 200px; /* Настройте размер по необходимости */
+      width: 200px;
       height: 200px;
       transition: transform 0.3s ease;
     }
@@ -180,7 +171,6 @@
     }
     
     .home {
-      /* Дополнительные стили для главной страницы */
       z-index: 3; 
     }
     
@@ -233,39 +223,35 @@
       bottom: 80px;
     }
     
-    /* Floating Image on the Right */
     .floating-image {
       position: absolute;
       right: 5%;
       top: 50%;
       transform: translateY(-50%) scale(1);
-      width: 900px; /* Настройте по необходимости */
+      width: 900px;
       animation: float 60s ease-in-out infinite;
       z-index: 4;
     }
     
-    /* Добавление Нового Изображения Слева */
     .left-image {
       position: absolute;
       left: 9%;
       top: 40%;
       transform: translateY(-50%) scale(1);
-      width: 600px; /* Настройте размер по необходимости */
+      width: 600px;
       z-index: 4;
     }
     .left-image:hover {
-      /* Эффекты при наведении при необходимости */
     }
     
-    /* Новое Изображение внизу раздела Roadmap */
     .roadmap-bottom-image {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 1300px; /* Настройте размер по необходимости */
+      width: 1300px;
       animation: scaleUpDown 30s ease-in-out infinite;
-      z-index: 1; /* Поверх остальных элементов */
+      z-index: 1;
     }
     
     @keyframes scaleUpDown {
@@ -403,11 +389,10 @@
       animation: pulsate 2s infinite;
     }
     
-    /* Home Button */
     .home-button {
-      position: fixed; /* Закрепляет кнопку относительно окна браузера */
-      bottom: -120px;    /* Расположение от нижнего края */
-      right: 3px;     /* Расположение от правого края */
+      position: fixed;
+      bottom: -120px;
+      right: 3px;
       width: 150px;
       height: 150px;
       z-index: 10000; 
@@ -419,18 +404,15 @@
       height: auto;
     }
 
-    /* Home Image */
     .home-image {
       position: absolute;
       bottom: 110px;
-      left: 24.5%; /* Расположение слева от центра */
+      left: 24.5%;
       transform: translateX(-50%);
-      width: 30%; /* Ширина изображения */
+      width: 30%;
       z-index: 5;
-      /* Добавьте дополнительные стили по необходимости */
     }
 
-    /* Адаптивные изменения для Home Image */
     @media (max-width: 1024px) {
       .home-image {
         left: 35%;
@@ -520,10 +502,10 @@
       }
       
       .floating-image, .left-image {
-        width: 150px; /* Adjust for smaller screens */
+        width: 150px;
       }
       .roadmap-bottom-image {
-        width: 200px; /* Adjust size for smaller screens */
+        width: 200px;
       }
 
       .home-image {
@@ -560,10 +542,10 @@
       }
       
       .floating-image, .left-image {
-        width: 120px; /* Further adjust for very small screens */
+        width: 120px;
       }
       .roadmap-bottom-image {
-        width: 150px; /* Further adjust size for very small screens */
+        width: 150px;
       }
 
       .home-image {
@@ -572,13 +554,10 @@
       }
     }
     
-    /* Удаляем фоновые цвета из секций Roadmap и About */
-    /* Ранее были установлены белые фоны, теперь они удаляются */
     #section1, #section2, #section3 {
-      background: transparent; /* Сделать фон прозрачным */
+      background: transparent;
     }
     
-    /* Стили для левых изображений в секциях */
     .section2-left-image {
       position: absolute;
       left: 5%;
@@ -592,14 +571,13 @@
     .section3-left-image {
       position: absolute;
       left: 5%;
-      top: 20px; /* -220px + 500px = 280px */
+      top: 20px;
       transform: translateY(-50%);
       width: 50%;
       z-index: 2;
       transition: top 0.3s ease;
     }
 
-    /* Стили для правых изображений в секциях */
     .section2-right-image {
       position: absolute;
       right: 10%;
@@ -626,8 +604,8 @@
       display: block;
       cursor: pointer;
       transition: transform 0.3s ease;
-      z-index: 100002; /* Установлен выше для перекрытия слайдера */
-      position: relative; /* Для z-index работать */
+      z-index: 100002;
+      position: relative;
     }
 
     .volume-control {
@@ -636,7 +614,7 @@
 
     .volume-slider-container {
       position: absolute;
-      top: 65px; /* Adjust position above the icon */
+      top: 65px;
       right: 30%;
       background: rgba(255, 171, 0, 0.7);
       padding: 10px;
@@ -645,80 +623,28 @@
       opacity: 0;
       visibility: hidden;
       transform: translateY(-20px);
-      pointer-events: none; /* Prevent blocking hover */
-      z-index: 100001; /* Уменьшен z-index для ниже иконки */
+      pointer-events: none;
+      z-index: 100001;
     }
 
-    /* Show the volume slider on hover */
     .volume-control:hover .volume-slider-container {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
-      pointer-events: auto; /* Allow interaction */
+      pointer-events: auto;
     }
 
     #volume-slider {
       -webkit-appearance: none;
       writing-mode: vertical-rl;
       direction: rtl;
-      width: 8px;
-      height: 100px;
-      background: rgba(255, 171, 0, 0.7);
-      border-radius: 5px;
-      outline: none;
-      cursor: pointer;
-    }
-    #volume-slider {
-      -webkit-appearance: none;
-      appearance: none;
       width: 5px;
       height: 100px;
       background: linear-gradient(to top, white 0%, white var(--slider-progress, 0%), rgba(255, 255, 255, 0.7) var(--slider-progress, 0%),rgba(255, 0, 0, 0.7) 100%);
       border-radius: 5px;
       outline: none;
       position: relative;
-    }
-    
-    #volume-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      background: #ffffff;
-      border-radius: 50%;
-      border: 2px solid #000;
       cursor: pointer;
-      position: relative;
-      z-index: 2;
-    }
-    
-    #volume-slider::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
-      background: #ffffff;
-      border-radius: 50%;
-      border: 2px solid #000;
-      cursor: pointer;
-    }
-    
-    #volume-slider::-moz-range-progress {
-      background: white;
-      border-radius: 5px;
-    }
-    
-    #volume-slider::-moz-range-track {
-      background: rgba(112, 102, 84, 0.7);
-      border-radius: 5px;
-    }
-    
-    #volume-slider::-ms-fill-lower {
-      background: white;
-      border-radius: 5px;
-    }
-    
-    #volume-slider::-ms-fill-upper {
-      background: rgba(113, 107, 97, 0.7);
-      border-radius: 5px;
     }
     
     #volume-slider::-webkit-slider-thumb {
@@ -751,7 +677,6 @@
       border-color: transparent transparent rgba(0, 0, 0, 0.7) transparent;
     }
     
-    /* Стили для секции 2 (About) */
     .section2-buttons-section2 {
       position: absolute;
       bottom: 2.5%;
@@ -771,12 +696,11 @@
       transform: scale(1.1);
     }
     
-    /* Стили для секции 3 (Контакты) - Обновлённая секция с 3 кнопками */
     .section3-buttons {
       position: absolute;
-      bottom: calc(2.5% + 120px); /* Перемещено вверх на 120px */
-      left: calc(58% + 40px); /* Перемещено вправо на 40px */
-      transform: translate(-50%, 0); /* Убираем смещение по Y */
+      bottom: calc(2.5% + 120px);
+      left: calc(58% + 40px);
+      transform: translate(-50%, 0);
       display: flex;
       gap: 50px;
       z-index: 4; 
@@ -894,46 +818,40 @@
       border: none;
     }
 
-    /* --- Обновленные стили для секции Balenciaga (section4) --- */
-
-    /* Container for Balenciaga Section */
     #section4 {
       position: relative;
       overflow: hidden;
     }
 
-    /* Добавленное фоновые изображение под левым изображением */
     .balenciaga-background-image {
       position: absolute;
       left: 600px;
-      bottom: -400px; /* Сдвиг вниз на 400px */
-      transform: translateX(-50%) scale(1.4); /* Увеличение на 40% */
-      width: 820px; /* Базовая ширина */
+      bottom: -400px;
+      transform: translateX(-50%) scale(1.4);
+      width: 820px;
       height: auto;
-      z-index: 1; /* Ниже, чем правые изображения */
+      z-index: 1;
       animation: scaleUpDownBackground 30s ease-in-out infinite;
     }
 
     @keyframes scaleUpDownBackground {
       0% { transform: translateX(-50%) scale(1.4); }
-      50% { transform: translateX(-50%) scale(1.54); } /* 1.4 * 1.1 ≈ 1.54 */
+      50% { transform: translateX(-50%) scale(1.54); }
       100% { transform: translateX(-50%) scale(1.4); }
     }
 
-    /* Левое статичное изображение */
     .balenciaga-left-image {
       position: absolute;
       left: 600px;
       bottom: -3%;
       transform: translateX(-50%);
-      width: 820px; /* Настройте размер по необходимости */
+      width: 820px;
       max-width: none;
       height: auto;
       z-index: 5;
       transition: transform 0.3s ease;
     }
 
-    /* Правая контейнер */
     .balenciaga-right-container {
       position: absolute;
       right: 30%;
@@ -944,21 +862,20 @@
       z-index: 2;
     }
 
-    /* Dropdown Button */
     .dropdown-button {
       position: relative;
       background: none;
       border: none;
       cursor: pointer;
       padding: 0;
-      margin-bottom: 50px; /* Отступ 50px между кнопкой и статичным изображением */
+      margin-bottom: 50px;
       transition: transform 0.3s ease;
       transform: translateX(300px);
-      z-index: 2001; /* Убедимся, что кнопка выше статичного изображения */
+      z-index: 2001;
     }
 
     .dropdown-button img {
-      width: 400px; /* Настройте размер по необходимости */
+      width: 400px;
       height: auto;
       transition: transform 0.3s ease;
     }
@@ -967,29 +884,26 @@
       transform: scale(1.1);
     }
 
-    /* Dropdown Content */
     .dropdown-content {
       display: none;
       position: absolute;
-      top: 120%; /* Позиционирование под кнопкой */
+      top: 120%;
       left: 50%;
       transform: translateX(-50%) translateY(-10px);
       background-color: rgba(255, 255, 255, 0.9);
       padding: 10px;
       border-radius: 28px;
-      z-index: 2000; /* Убедимся, что выпадающее окно выше статичного изображения */
+      z-index: 2000;
     }
 
-    /* Показываем Dropdown Content при активации */
     .dropdown-button.active .dropdown-content {
       display: block;
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       animation: slideDown 0.3s ease forwards;
-      z-index: 2000; /* Убедимся, что выпадающее окно выше статичного изображения */
+      z-index: 2000;
     }
 
-    /* Анимация выезда вниз */
     @keyframes slideDown {
       from {
         opacity: 0;
@@ -1001,20 +915,18 @@
       }
     }
 
-    /* Static Image Below the Button */
     .balenciaga-static-image {
-      width: 800px; /* Настройте размер по необходимости */
+      width: 800px;
       height: auto;
       transition: transform 0.3s ease;
-      position: relative; /* Относительное позиционирование */
-      left: 300px; /* Сдвиг вправо на 300px */
-      z-index: 1; /* Убедимся, что статичное изображение ниже выпадающего окна */
+      position: relative;
+      left: 300px;
+      z-index: 1;
     }
 
-    /* Специфичный эффект Hover для изображения в выпадающем окне */
     .dropdown-content a {
       position: relative;
-      display: inline-block; /* Обеспечивает корректное позиционирование */
+      display: inline-block;
     }
 
     .dropdown-content a::after {
@@ -1028,15 +940,14 @@
       border-radius: 50%;
       transform: translate(-50%, -50%) scale(0);
       transition: transform 0.3s ease;
-      pointer-events: none; /* Не мешает кликам */
-      z-index: -1; /* Располагается позади изображения */
+      pointer-events: none;
+      z-index: -1;
     }
 
     .dropdown-content a:hover::after {
       transform: translate(-50%, -50%) scale(1);
     }
 
-    /* Responsive Adjustments for Balenciaga Section */
     @media (max-width: 1024px) {
       .balenciaga-left-image {
         width: 250px;
@@ -1054,11 +965,10 @@
         width: 120px;
       }
 
-      /* Новое фоновые изображение под левым изображением */
       .balenciaga-background-image {
-        width: 1148px; /* 820px * 1.4 */
-        left: 600px; /* Сохраняем позицию */
-        bottom: 300px; /* Сдвиг вниз на 300px */
+        width: 1148px;
+        left: 600px;
+        bottom: 300px;
       }
     }
 
@@ -1079,11 +989,10 @@
         width: 100px;
       }
 
-      /* Новое фоновые изображение под левым изображением */
       .balenciaga-background-image {
-        width: 248px; /* Приблизительно 1148px * (150/820) * 1.4 */
-        left: 600px; /* Сохраняем позицию */
-        bottom: 300px; /* Сдвиг вниз на 300px */
+        width: 248px;
+        left: 600px;
+        bottom: 300px;
       }
     }
 
@@ -1104,43 +1013,33 @@
         width: 300px;
       }
 
-      /* Новое фоновые изображение под левым изображением */
       .balenciaga-background-image {
-        width: 248px; /* Приблизительно 1148px * (150/820) * 1.4 */
-        left: 600px; /* Сохраняем позицию */
-        bottom: 300px; /* Сдвиг вниз на 300px */
+        width: 248px;
+        left: 600px;
+        bottom: 300px;
       }
     }
-
-    /* --- Конец обновленных стилей --- */
   </style>
 </head>
 <body>
 
-  <!-- Фоновое Видео Главной Страницы -->
   <video id="background-video" autoplay muted loop playsinline>
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplZjhiNDNhZC1lYjJlLTRjODMtODBhYS02NTZmYzBiN2NmZmM=/BG.webm" type="video/webm">
     Ваш браузер не поддерживает видео.
   </video>
 
-  <!-- Loading Overlay with Progress Bar and Proceed Button -->
   <div id="loading-overlay">
     <div id="loading-container">
-      <!-- Движущееся изображение, привязанное к прогресс-бару -->
       <img id="loading-image" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0NDQ5NmQ1NS0xOGUzLTRhNTYtYmFiYS1iODczNjQ3NjFjYzI=/Comp%201.gif" alt="Loading Image" />
-
-      <!-- Прогресс-бар -->
       <div id="loading-progress">
         <div id="loading-progress-bar"></div>
       </div>
     </div>
-    <!-- Proceed Button (Initially Hidden) -->
     <button id="proceed-button">
       <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjOTc2Y2U0MC0wZjk0LTRiZDUtODFlMC01OTAxMDE1N2I4NjQ=/about.svg" alt="Proceed Button">
     </button>
   </div>
 
-  <!-- Transition Overlay -->
   <div id="transition-overlay">
     <video id="transition-video" preload="auto">
       <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1NTZiOTMwNi1lNDExLTRlNDctYWJmYy00YmExMTY0OGQxZmM=/Organic_10_1%20(1).webm" type="video/webm">
@@ -1148,19 +1047,16 @@
     </video>
   </div>
   
-  <!-- Background Music (Removed Autoplay) -->
   <audio id="background-music" loop preload="auto">
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZToxNDk2YWNlMS1jMTI5LTQyZjMtYjYwZi1mNDdhNDYxN2E0M2I=/Music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
   
-  <!-- Meow Sound -->
   <audio id="meow-sound" preload="auto">
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0YzQzNjY1My1jN2VlLTQ2ZjMtODFhOS1kNmI5YzIzNDRiZGI=/ES_Meow,%20Multiple,%20Short,%20Fast%20-%20Epidemic%20Sound%20(mp3cut.net).mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
   
-  <!-- Hover Sounds for Buttons -->
   <audio id="sound1" preload="auto">
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5NzQ3YmI4Ni0wN2JkLTQ5NTUtOGEzOC1mOGIwNjRlZmRkNDI=/1%20click.m4a" type="audio/mp4">
     Your browser does not support the audio element.
@@ -1178,7 +1074,6 @@
     Your browser does not support the audio element.
   </audio>
   
-  <!-- Header with Navigation Buttons -->
   <div class="header-container">
     <div class="left-buttons">
       <a href="#section1" class="scroll-link" data-sound="sound1">
@@ -1208,24 +1103,19 @@
     </div>
   </div>
   
-  <!-- Home Button -->
   <a href="#home" class="home-button scroll-link" id="home-button">
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5YTJiZWRlYi1jYTIxLTRjOWEtYjdhNy0xZDNhMDFmYjZlODI=/HOME%20(1).svg" alt="Home Button">
   </a>
   
-  <!-- Home Section -->
   <div class="home" id="home">
-    <!-- Новое Изображение Слева -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo2MzBjODViZC03OTJjLTQ5MWQtYjg1Mi0wMDRhMmNhY2E1NmE=/CAT%20MOON%20MEoWL.svg" alt="CAT MOON MEoWL" class="left-image">
     
     <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank" class="center-button" id="center-button">
       <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Main Button">
     </a>
   
-    <!-- Floating Image on the Right -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplYzBiZjQzNi1hODJlLTQ5NzYtYTE5ZC03ODAyNDhiZDA4ZjA=/MEOW%20Main%20page%20R.webp" alt="Floating Image" class="floating-image">
   
-    <!-- Изображение на главной странице вместо текста -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiOTE3MzdlYy1jZjI4LTRmMTgtYWQzZC03ZDk3MzZjZjliYjI=/MEOW%20strives%20to%20survive%20in%20a%20world%20full%20of%20chaos%20and%20disorder.%20He%20finds%20his%20home%20on%20the%20moon,%20and%20this%20story%20follows%20his%20journey%20to%20different%20planets,%20highlighting%20his%20ups%20and%20downs%20Join%20the%20com.svg" alt="Описание изображения" class="home-image">
   
     <div class="marquee">
@@ -1243,10 +1133,7 @@
     </div>
   </div>
   
-  <!-- Section 1 (Roadmap) -->
   <div class="section" id="section1">
-    <!-- Удалён фоновый видео элемент -->
-    
     <div class="section1-left-container fade-in visible">
       <img class="dev-logo-main" src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyYjNkNDU2Zi1lMjQ2LTQ3ZDEtYWUyZS0xMTNjZGU0YmY1ZDk=/DEV_LOGO_MAIN.svg" alt="Dev Logo Main" />
       <img class="dev-rotation-elements fade-in pulsate visible" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmODkzYjM0Yy1hZWZhLTQxYmMtODZlOS1mZWIyMTkxZDk1OTY=/DEV_ROTATION_ELEMENTS.svg" alt="Dev Rotation Elements" />
@@ -1256,16 +1143,11 @@
       <img class="dev-logo-main-right" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3N2M1YWEwOC1jY2Y1LTQwYTItODdhOS02MmY0ODZiZWQ3OGM=/Group%2034.svg" alt="New Dev Logo Main Right" />
       <img class="dev-rotation-elements-right fade-in pulsate visible" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplZWRhMzA4ZS1iYmVmLTRmODItYTUwMS1jMDdlMjliYTMzNGE=/Group%2034%20(4).svg" alt="New Dev Rotation Elements Right" />
     </div>
-    
-    <!-- Бегущая строка удалена из раздела Roadmap (section1) -->
-
-    <!-- Новое изображение снизу -->
+  
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToxMGRmMmFjMC00NDgzLTQwMDEtYTBhOC02NjM0ODUzODI3MTk=/RoadMapB.webp" alt="Roadmap Bottom Image" class="roadmap-bottom-image">
   </div>
   
-  <!-- Section 2 (About) -->
   <div class="section" id="section2">
-    <!-- Удалён фоновый видео элемент -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMTRiMWEyOS04NmFkLTRlNmEtYTM0Ni0yOTViNDhjYmYxMTk=/Welcome.webp" alt="Left Image" class="section2-left-image fade-in visible"/>
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo4ZWJmY2RlNC0wMmZhLTQ1MDYtYjk3NS0zMGY0NjVmNzA3MjE=/Right.svg" alt="Right Image" class="section2-right-image fade-in visible"/>
     
@@ -1285,9 +1167,7 @@
     </div>
   </div>
   
-  <!-- Section 3 (Контакты) -->
   <div class="section" id="section3">
-    <!-- Удалён фоновый видео элемент -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZDNiODYwMi0wN2U2LTRiOWEtYmE1NS1mMmI3YjMzYjY1YzE=/Main%20pfp.webp" alt="Left Image" class="section3-left-image fade-in visible"/>
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjNzRlY2I3Ni1hN2FhLTRkYWMtYWZiNS1mMTM5MWM0YWM2NTk=/ооо.svg" alt="Right Image" class="section3-right-image fade-in visible"/>
     
@@ -1305,20 +1185,16 @@
   
   </div>
   
-  <!-- Section 4 -->
   <div class="section" id="section4">
     <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
       <source src="https://example.com/video4.webm" type="video/webm">
       Ваш браузер не поддерживает видео.
     </video>
 
-    <!-- Добавленное фоновые изображение под левым изображением -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MDQ4NThjYi1hMGNhLTQ5ZjMtODE1MS00ZmZjMzAzMDQ4OTU=/PngItem_5662226.webp" alt="Balenciaga Background Image" class="balenciaga-background-image">
 
-    <!-- Левое статичное изображение -->
     <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiNzYxMjUzOS0wNjA0LTRhNGMtYjJhOC0yMmU1MGJiY2U3N2Y=/Balenciaga%20(2).webp" alt="Balenciaga Static Image" class="balenciaga-left-image">
     
-    <!-- Правая кнопка с выпадающим окном и статичное изображение под ней -->
     <div class="balenciaga-right-container">
       <button class="dropdown-button" id="dropdown-button">
         <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Dropdown Button">
@@ -1328,76 +1204,56 @@
           </a>
         </div>
       </button>
-      <!-- Статичное изображение под кнопкой -->
       <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0ZDlmNWEyZS04OTQ2LTRhZDUtODE2MC0yZTEwMjliZTljMDk=/BL%20text.svg" alt="Static Image Below Button" class="balenciaga-static-image">
     </div>
   </div>
   
   <script>
-    // Loading Screen Control
     const loadingOverlay = document.getElementById('loading-overlay');
     const loadingProgressBar = document.getElementById('loading-progress-bar');
     const proceedButton = document.getElementById('proceed-button');
     const backgroundMusic = document.getElementById('background-music');
     const homeSection = document.getElementById('home');
     const homeButton = document.getElementById('home-button');
-    const loadingImage = document.getElementById('loading-image'); // Получаем движущееся изображение
+    const loadingImage = document.getElementById('loading-image');
 
-    // Preload main background video
     const mainBgVideo = document.getElementById('background-video');
 
-    // Simulate loading progress
     let progress = 0;
     const loadingInterval = setInterval(() => {
-      progress += Math.random() * 10; // Increment progress randomly
+      progress += Math.random() * 10;
       if (progress >= 100) {
         progress = 100;
         clearInterval(loadingInterval);
         loadingProgressBar.style.width = progress + '%';
-        loadingImage.style.left = progress + '%'; // Обновляем позицию изображения
-        // Show the proceed button
+        loadingImage.style.left = progress + '%';
         proceedButton.style.display = 'block';
       } else {
         loadingProgressBar.style.width = progress + '%';
-        loadingImage.style.left = progress + '%'; // Обновляем позицию изображения
+        loadingImage.style.left = progress + '%';
       }
     }, 300);
 
-    // Proceed Button Click Event
     proceedButton.addEventListener('click', () => {
-      // Hide the loading overlay
       loadingOverlay.classList.add('hidden');
-      
-      // Show the home section
       homeSection.classList.add('visible');
-      
-      // Start playing background music
       backgroundMusic.play().catch((error) => {
         console.log('Background music playback was blocked:', error);
       });
-      
-      // Optionally, hide the home button if on home
       homeButton.style.display = 'none';
     });
 
-    // Background Music Control (Volume Slider)
     const volumeSlider = document.getElementById('volume-slider');
-
-    // Set initial volume
     backgroundMusic.volume = parseFloat(volumeSlider.value);
-
-    // Volume Slider Control
     volumeSlider.addEventListener('input', (e) => {
       backgroundMusic.volume = parseFloat(e.target.value);
     });
 
-    // Section Navigation Control
-    let currentSection = homeSection; // Start at home after proceed
+    let currentSection = homeSection;
 
     function switchSection(newSectionId) {
       const newSection = document.getElementById(newSectionId.replace('#',''));
       if (!newSection || newSection === currentSection) return;
-
       currentSection.classList.remove('visible');
       newSection.classList.add('visible');
       currentSection = newSection;
@@ -1416,19 +1272,14 @@
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = link.getAttribute('href');
-
         if (currentSection.id === targetId.replace('#','')) return;
-
         transitionVideo.pause();
         transitionVideo.currentTime = 0;
         transitionVideo.load();
-
         overlay.style.display = 'block';
         transitionVideo.play();
-
         setTimeout(() => {
           switchSection(targetId);
-          
           if (targetId === '#home') {
             homeButton.style.display = 'none';
           } else {
@@ -1438,13 +1289,11 @@
       });
     });
 
-    // Center Button Interaction
     const centerButton = document.getElementById('center-button');
     centerButton.addEventListener('click', function () {
       centerButton.classList.add('active-button');
     });
 
-    // Control meow sound on center button hover
     const meowSound = document.getElementById('meow-sound');
     centerButton.addEventListener('mouseenter', () => {
       meowSound.currentTime = 0;
@@ -1455,7 +1304,6 @@
       meowSound.currentTime = 0;
     });
 
-    // Rotate elements based on mouse movement
     const section1 = document.querySelector('#section1');
     const devRotation = document.querySelector('.dev-rotation-elements');
     const devRotationRight = document.querySelector('.dev-rotation-elements-right');
@@ -1470,14 +1318,12 @@
         const rotateX = ((y - centerY) / centerY) * 10;
         const rotateY = ((x - centerX) / centerX) * 10;
         
-        // Using template literals for transform
         devRotation.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         devRotationRight.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       });
     }
 
     window.addEventListener('load', () => {
-      // Set hover sounds volume to 0.1 (10%)
       const hoverSounds = ['sound1', 'sound2', 'sound3', 'sound4'];
       hoverSounds.forEach(soundId => {
         const sound = document.getElementById(soundId);
@@ -1485,14 +1331,11 @@
           sound.volume = 0.1;
         }
       });
-
-      // Optionally, hide the home button if already on home
       if (currentSection.id === 'home') {
         homeButton.style.display = 'none';
       }
     });
 
-    // Hover sounds for navigation buttons
     const buttons = document.querySelectorAll('.scroll-link');
     buttons.forEach(button => {
       const soundId = button.getAttribute('data-sound');
@@ -1505,24 +1348,18 @@
       });
     });
 
-    // --- Новые скрипты для Balenciaga Dropdown ---
     document.addEventListener('DOMContentLoaded', () => {
       const dropdownButton = document.getElementById('dropdown-button');
-
-      // Toggle dropdown on button click
       dropdownButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent event from bubbling up
+        e.stopPropagation();
         dropdownButton.classList.toggle('active');
       });
-
-      // Close dropdown when clicking outside
       document.addEventListener('click', (e) => {
         if (!dropdownButton.contains(e.target)) {
           dropdownButton.classList.remove('active');
         }
       });
     });
-    // --- Конец новых скриптов ---
   </script>
   
 </body>
