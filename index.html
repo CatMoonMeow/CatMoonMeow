@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -75,6 +75,12 @@
       pointer-events: none; /* Позволяет взаимодействовать с элементами поверх видео */
     }
 
+    /* Уменьшение изображения на загрузочной странице */
+    #loading-overlay img {
+      width: 70px; /* Установите нужное значение в зависимости от исходного размера */
+      height: auto;
+    }
+
     /* Loading Screen Styles */
     #loading-overlay {
       position: fixed;
@@ -82,7 +88,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.8); /* Полупрозрачный чёрный фон */
+      background-color: rgba(0, 0, 0, 0.95); /* Полупрозрачный чёрный фон */
       z-index: 100000; 
       display: flex;
       align-items: center;
@@ -96,13 +102,28 @@
       visibility: hidden;
       pointer-events: none;
     }
-    #loading-progress {
+
+    /* Контейнер для прогресс-бара и движущегося изображения */
+    #loading-container {
+      position: relative;
       width: 80%;
+      max-width: 600px; /* Настройте по необходимости */
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    /* Прогресс-бар */
+    #loading-progress {
+      width: 100%;
       height: 20px;
       background-color: #444;
       border-radius: 10px;
       overflow: hidden;
       margin-top: 20px;
+      position: relative;
     }
     #loading-progress-bar {
       width: 0%;
@@ -110,6 +131,20 @@
       background-color: #FFAB00;
       transition: width 0.3s ease;
     }
+
+    /* Движущееся изображение */
+    #loading-image {
+      position: absolute;
+      bottom: 58%; /* Позиционируем изображение относительно прогресс-бара */
+      left: 0%;
+      transform: translate(-50%, 50%); /* Центрируем по вертикали */
+      transition: left 0.3s ease;
+      width: 70px; /* Установите нужное значение */
+      height: auto;
+      z-index: 100002;
+    }
+
+    /* Proceed Button */
     #proceed-button {
       margin-top: 30px;
       background: none;
@@ -543,21 +578,48 @@
       background: transparent; /* Сделать фон прозрачным */
     }
     
-    .section2-images {
+    /* Стили для левых изображений в секциях */
+    .section2-left-image {
       position: absolute;
-      top: 27%;
+      left: 5%;
+      top: -220px;
       transform: translateY(-50%);
       width: 39%;
       z-index: 2;
+      transition: top 0.3s ease;
     }
-    .section2-images.left {
+
+    .section3-left-image {
+      position: absolute;
       left: 5%;
-      top: 120px;
+      top: 20px; /* -220px + 500px = 280px */
+      transform: translateY(-50%);
+      width: 50%;
+      z-index: 2;
+      transition: top 0.3s ease;
     }
-    .section2-images.right {
+
+    /* Стили для правых изображений в секциях */
+    .section2-right-image {
+      position: absolute;
       right: 10%;
       top: 23%;
+      transform: translateY(-50%);
+      width: 39%;
+      z-index: 2;
+      transition: top 0.3s ease;
     }
+
+    .section3-right-image {
+      position: absolute;
+      right: 10%;
+      top: 23%;
+      transform: translateY(-50%);
+      width: 39%;
+      z-index: 2;
+      transition: top 0.3s ease;
+    }
+
     .volume-icon {
       width: 24px;
       height: 24px;
@@ -709,11 +771,11 @@
       transform: scale(1.1);
     }
     
-    /* Стили для секции 3 (Контакты) */
+    /* Стили для секции 3 (Контакты) - Обновлённая секция с 3 кнопками */
     .section3-buttons {
       position: absolute;
       bottom: calc(2.5% + 120px); /* Перемещено вверх на 120px */
-      left: calc(58% + 40px); /* Перемещено вправо на 50px */
+      left: calc(58% + 40px); /* Перемещено вправо на 40px */
       transform: translate(-50%, 0); /* Убираем смещение по Y */
       display: flex;
       gap: 50px;
@@ -832,17 +894,225 @@
       border: none;
     }
 
-    /* --- Добавленные стили для секции Контакты (section3) --- */
-    #section3 .section2-images.left {
-      top: 40px;
+    /* --- Обновленные стили для секции Balenciaga (section4) --- */
+
+    /* Container for Balenciaga Section */
+    #section4 {
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Изменение правого изображения в секции Contact */
-    #section3 .section2-images.right {
-      top: 250px; /* Поднято на 20 пикселей */
-      right: calc(10% + 20px); /* Смещено вправо на 20 пикселей */
+    /* Добавленное фоновые изображение под левым изображением */
+    .balenciaga-background-image {
+      position: absolute;
+      left: 600px;
+      bottom: -400px; /* Сдвиг вниз на 400px */
+      transform: translateX(-50%) scale(1.4); /* Увеличение на 40% */
+      width: 820px; /* Базовая ширина */
+      height: auto;
+      z-index: 1; /* Ниже, чем правые изображения */
+      animation: scaleUpDownBackground 30s ease-in-out infinite;
     }
-    /* --- Конец добавленных стилей --- */
+
+    @keyframes scaleUpDownBackground {
+      0% { transform: translateX(-50%) scale(1.4); }
+      50% { transform: translateX(-50%) scale(1.54); } /* 1.4 * 1.1 ≈ 1.54 */
+      100% { transform: translateX(-50%) scale(1.4); }
+    }
+
+    /* Левое статичное изображение */
+    .balenciaga-left-image {
+      position: absolute;
+      left: 600px;
+      bottom: -3%;
+      transform: translateX(-50%);
+      width: 820px; /* Настройте размер по необходимости */
+      max-width: none;
+      height: auto;
+      z-index: 5;
+      transition: transform 0.3s ease;
+    }
+
+    /* Правая контейнер */
+    .balenciaga-right-container {
+      position: absolute;
+      right: 30%;
+      bottom: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+
+    /* Dropdown Button */
+    .dropdown-button {
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 50px; /* Отступ 50px между кнопкой и статичным изображением */
+      transition: transform 0.3s ease;
+      transform: translateX(300px);
+      z-index: 2001; /* Убедимся, что кнопка выше статичного изображения */
+    }
+
+    .dropdown-button img {
+      width: 400px; /* Настройте размер по необходимости */
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-button:hover img {
+      transform: scale(1.1);
+    }
+
+    /* Dropdown Content */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 120%; /* Позиционирование под кнопкой */
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 28px;
+      z-index: 2000; /* Убедимся, что выпадающее окно выше статичного изображения */
+    }
+
+    /* Показываем Dropdown Content при активации */
+    .dropdown-button.active .dropdown-content {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      animation: slideDown 0.3s ease forwards;
+      z-index: 2000; /* Убедимся, что выпадающее окно выше статичного изображения */
+    }
+
+    /* Анимация выезда вниз */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* Static Image Below the Button */
+    .balenciaga-static-image {
+      width: 800px; /* Настройте размер по необходимости */
+      height: auto;
+      transition: transform 0.3s ease;
+      position: relative; /* Относительное позиционирование */
+      left: 300px; /* Сдвиг вправо на 300px */
+      z-index: 1; /* Убедимся, что статичное изображение ниже выпадающего окна */
+    }
+
+    /* Специфичный эффект Hover для изображения в выпадающем окне */
+    .dropdown-content a {
+      position: relative;
+      display: inline-block; /* Обеспечивает корректное позиционирование */
+    }
+
+    .dropdown-content a::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s ease;
+      pointer-events: none; /* Не мешает кликам */
+      z-index: -1; /* Располагается позади изображения */
+    }
+
+    .dropdown-content a:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Responsive Adjustments for Balenciaga Section */
+    @media (max-width: 1024px) {
+      .balenciaga-left-image {
+        width: 250px;
+      }
+
+      .dropdown-button img {
+        width: 80px;
+      }
+
+      .dropdown-content img {
+        width: 150px;
+      }
+
+      .balenciaga-static-image {
+        width: 120px;
+      }
+
+      /* Новое фоновые изображение под левым изображением */
+      .balenciaga-background-image {
+        width: 1148px; /* 820px * 1.4 */
+        left: 600px; /* Сохраняем позицию */
+        bottom: 300px; /* Сдвиг вниз на 300px */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .balenciaga-left-image {
+        width: 200px;
+      }
+
+      .dropdown-button img {
+        width: 70px;
+      }
+
+      .dropdown-content img {
+        width: 120px;
+      }
+
+      .balenciaga-static-image {
+        width: 100px;
+      }
+
+      /* Новое фоновые изображение под левым изображением */
+      .balenciaga-background-image {
+        width: 248px; /* Приблизительно 1148px * (150/820) * 1.4 */
+        left: 600px; /* Сохраняем позицию */
+        bottom: 300px; /* Сдвиг вниз на 300px */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .balenciaga-left-image {
+        width: 150px;
+      }
+
+      .dropdown-button img {
+        width: 120px;
+      }
+
+      .dropdown-content img {
+        width: 100px;
+      }
+
+      .balenciaga-static-image {
+        width: 300px;
+      }
+
+      /* Новое фоновые изображение под левым изображением */
+      .balenciaga-background-image {
+        width: 248px; /* Приблизительно 1148px * (150/820) * 1.4 */
+        left: 600px; /* Сохраняем позицию */
+        bottom: 300px; /* Сдвиг вниз на 300px */
+      }
+    }
+
+    /* --- Конец обновленных стилей --- */
   </style>
 </head>
 <body>
@@ -855,9 +1125,14 @@
 
   <!-- Loading Overlay with Progress Bar and Proceed Button -->
   <div id="loading-overlay">
-    <h1>Loading...</h1>
-    <div id="loading-progress">
-      <div id="loading-progress-bar"></div>
+    <div id="loading-container">
+      <!-- Движущееся изображение, привязанное к прогресс-бару -->
+      <img id="loading-image" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0NDQ5NmQ1NS0xOGUzLTRhNTYtYmFiYS1iODczNjQ3NjFjYzI=/Comp%201.gif" alt="Loading Image" />
+
+      <!-- Прогресс-бар -->
+      <div id="loading-progress">
+        <div id="loading-progress-bar"></div>
+      </div>
     </div>
     <!-- Proceed Button (Initially Hidden) -->
     <button id="proceed-button">
@@ -991,8 +1266,8 @@
   <!-- Section 2 (About) -->
   <div class="section" id="section2">
     <!-- Удалён фоновый видео элемент -->
-    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo2YzFkNTAxYi0wZjdkLTQ2ODMtOTI1ZS1hYWMzMjcxOGU3Yjk=/left.svg" alt="Left Image" class="section2-images left fade-in visible"/>
-    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo4ZWJmY2RlNC0wMmZhLTQ1MDYtYjk3NS0zMGY0NjVmNzA3MjE=/Right.svg" alt="Right Image" class="section2-images right fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMTRiMWEyOS04NmFkLTRlNmEtYTM0Ni0yOTViNDhjYmYxMTk=/Welcome.webp" alt="Left Image" class="section2-left-image fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo4ZWJmY2RlNC0wMmZhLTQ1MDYtYjk3NS0zMGY0NjVmNzA3MjE=/Right.svg" alt="Right Image" class="section2-right-image fade-in visible"/>
     
     <div class="section2-buttons-section2 fade-in visible">
       <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank">
@@ -1010,11 +1285,11 @@
     </div>
   </div>
   
-  <!-- Section 3 (Контакты) - Обновлённая секция с 3 кнопками -->
+  <!-- Section 3 (Контакты) -->
   <div class="section" id="section3">
     <!-- Удалён фоновый видео элемент -->
-    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTozNzg2ZTA3NC04YjA1LTQ3ZTktODYwZi1hMzZhYjJjZjA2YjI=/L3.svg" alt="Left Image" class="section2-images left fade-in visible"/>
-    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjNzRlY2I3Ni1hN2FhLTRkYWMtYWZiNS1mMTM5MWM0YWM2NTk=/ооо.svg" alt="Right Image" class="section2-images right fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZDNiODYwMi0wN2U2LTRiOWEtYmE1NS1mMmI3YjMzYjY1YzE=/Main%20pfp.webp" alt="Left Image" class="section3-left-image fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjNzRlY2I3Ni1hN2FhLTRkYWMtYWZiNS1mMTM5MWM0YWM2NTk=/ооо.svg" alt="Right Image" class="section3-right-image fade-in visible"/>
     
     <div class="section3-buttons fade-in visible">
       <a href="https://www.tiktok.com/@cat_moon_meow" target="_blank" data-sound="sound1">
@@ -1036,6 +1311,26 @@
       <source src="https://example.com/video4.webm" type="video/webm">
       Ваш браузер не поддерживает видео.
     </video>
+
+    <!-- Добавленное фоновые изображение под левым изображением -->
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MDQ4NThjYi1hMGNhLTQ5ZjMtODE1MS00ZmZjMzAzMDQ4OTU=/PngItem_5662226.webp" alt="Balenciaga Background Image" class="balenciaga-background-image">
+
+    <!-- Левое статичное изображение -->
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiNzYxMjUzOS0wNjA0LTRhNGMtYjJhOC0yMmU1MGJiY2U3N2Y=/Balenciaga%20(2).webp" alt="Balenciaga Static Image" class="balenciaga-left-image">
+    
+    <!-- Правая кнопка с выпадающим окном и статичное изображение под ней -->
+    <div class="balenciaga-right-container">
+      <button class="dropdown-button" id="dropdown-button">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Dropdown Button">
+        <div class="dropdown-content">
+          <a href="https://www.mytheresa.com/us/en/men/balenciaga-logo-leather-jacket-black-p00930197?dplink=true&utm_source=sea_pla&utm_medium=google&utm_campaign=google_sea&ef_id=CjwKCAiA9vS6BhA9EiwAJpnXw6NPVzwhSvxbNAhdafeD1MpmXk0su36RE3dtUbW9eS9k1JZQB_PtXxoCJzsQAvD_BwE&chn=sea_shopping&src=google&cmp=17370050298&tarea=row&tar=&ag=&ptyp=&feed_num=P00930197-1&gclid=CjwKCAiA9vS6BhA9EiwAJpnXw6NPVzwhSvxbNAhdafeD1MpmXk0su36RE3dtUbW9eS9k1JZQB_PtXxoCJzsQAvD_BwE&gbraid=0AAAAAD3Pw-nmDVfJcYHX8XcgtM60Y73ax&gad_source=1&slink=1" target="_blank" rel="noopener noreferrer">
+            <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTphNzFhMjRlZC1mNTU3LTQyNTQtYjllYS1iMTBjODc4MDZlNzY=/Balenciaga222.webp" alt="Balenciaga Product Image">
+          </a>
+        </div>
+      </button>
+      <!-- Статичное изображение под кнопкой -->
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0ZDlmNWEyZS04OTQ2LTRhZDUtODE2MC0yZTEwMjliZTljMDk=/BL%20text.svg" alt="Static Image Below Button" class="balenciaga-static-image">
+    </div>
   </div>
   
   <script>
@@ -1046,6 +1341,7 @@
     const backgroundMusic = document.getElementById('background-music');
     const homeSection = document.getElementById('home');
     const homeButton = document.getElementById('home-button');
+    const loadingImage = document.getElementById('loading-image'); // Получаем движущееся изображение
 
     // Preload main background video
     const mainBgVideo = document.getElementById('background-video');
@@ -1058,10 +1354,13 @@
         progress = 100;
         clearInterval(loadingInterval);
         loadingProgressBar.style.width = progress + '%';
+        loadingImage.style.left = progress + '%'; // Обновляем позицию изображения
         // Show the proceed button
         proceedButton.style.display = 'block';
+      } else {
+        loadingProgressBar.style.width = progress + '%';
+        loadingImage.style.left = progress + '%'; // Обновляем позицию изображения
       }
-      loadingProgressBar.style.width = progress + '%';
     }, 300);
 
     // Proceed Button Click Event
@@ -1178,7 +1477,7 @@
     }
 
     window.addEventListener('load', () => {
-      // Set hover sounds volume to 0.7 (70%)
+      // Set hover sounds volume to 0.1 (10%)
       const hoverSounds = ['sound1', 'sound2', 'sound3', 'sound4'];
       hoverSounds.forEach(soundId => {
         const sound = document.getElementById(soundId);
@@ -1205,6 +1504,25 @@
         }
       });
     });
+
+    // --- Новые скрипты для Balenciaga Dropdown ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdownButton = document.getElementById('dropdown-button');
+
+      // Toggle dropdown on button click
+      dropdownButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling up
+        dropdownButton.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!dropdownButton.contains(e.target)) {
+          dropdownButton.classList.remove('active');
+        }
+      });
+    });
+    // --- Конец новых скриптов ---
   </script>
   
 </body>
