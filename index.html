@@ -9,12 +9,7 @@
   <link rel="preload" as="video" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5ZTk2NDJlZi1iMGJmLTQ5ZTItYTJiMi02OGEyMDZlZjJjZmM=/MAIN%20BG.webm">
 
   <style>
-    /* Скрываем тело страницы по умолчанию, чтобы предотвратить "мигание" содержимого */
-    body {
-      display: none;
-    }
-
-    /* Ваши существующие стили */
+    /* Сброс стилей */
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -44,6 +39,7 @@
       font-family: Arial, sans-serif;
       overflow: hidden;
       position: relative;
+      /* Удаляем display: none; */
     }
     ol, ul {
       list-style: none;
@@ -67,7 +63,7 @@
       box-sizing: inherit;
     }
     
-    /* Остальные ваши стили остаются без изменений */
+    /* Ваши существующие стили */
     /* ... (Весь ваш существующий CSS здесь) ... */
 
     #background-video {
@@ -81,11 +77,7 @@
       pointer-events: none;
     }
 
-    #loading-overlay img {
-      width: 70px;
-      height: auto;
-    }
-
+    /* Корректируем стили загрузочного экрана */
     #loading-overlay {
       position: fixed;
       top: 0;
@@ -100,12 +92,14 @@
       flex-direction: column;
       color: white;
       transition: opacity 0.5s ease, visibility 0.5s ease;
-      opacity: 0;
-      visibility: hidden;
-    }
-    #loading-overlay.show {
+      /* Сделаем видимым по умолчанию */
       opacity: 1;
       visibility: visible;
+    }
+    #loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     #loading-container {
@@ -918,14 +912,10 @@
     }
 
     // Перенаправление на mobile.html, если устройство мобильное
-    if (isMobileDevice()) {
+    if (isMobileDevice() && !window.location.pathname.includes('mobile.html')) {
       window.location.href = '/mobile.html'; // Убедитесь, что путь к mobile.html правильный
-    } else {
-      // Показываем содержимое страницы, если устройство не мобильное
-      document.addEventListener('DOMContentLoaded', function() {
-        document.body.style.display = 'block';
-      });
     }
+    // Нет необходимости скрывать body, так как мы удалили display: none;
   </script>
 </head>
 <body>
@@ -1116,6 +1106,7 @@
   </div>
   
   <script>
+    // Получаем элементы
     const loadingOverlay = document.getElementById('loading-overlay');
     const loadingProgressBar = document.getElementById('loading-progress-bar');
     const proceedButton = document.getElementById('proceed-button');
