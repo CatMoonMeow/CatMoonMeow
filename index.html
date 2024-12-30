@@ -9,6 +9,7 @@
   <link rel="preload" as="video" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5ZTk2NDJlZi1iMGJmLTQ5ZTItYTJiMi02OGEyMDZlZjJjZmM=/MAIN%20BG.webm">
 
   <style>
+    /* Сброс стилей */
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
@@ -38,6 +39,7 @@
       font-family: Arial, sans-serif;
       overflow: hidden;
       position: relative;
+      /* Удаляем display: none; */
     }
     ol, ul {
       list-style: none;
@@ -61,6 +63,9 @@
       box-sizing: inherit;
     }
     
+    /* Ваши существующие стили */
+    /* ... (Весь ваш существующий CSS здесь) ... */
+
     #background-video {
       position: fixed;
       top: 0;
@@ -72,11 +77,7 @@
       pointer-events: none;
     }
 
-    #loading-overlay img {
-      width: 70px;
-      height: auto;
-    }
-
+    /* Корректируем стили загрузочного экрана */
     #loading-overlay {
       position: fixed;
       top: 0;
@@ -91,6 +92,9 @@
       flex-direction: column;
       color: white;
       transition: opacity 0.5s ease, visibility 0.5s ease;
+      /* Сделаем видимым по умолчанию */
+      opacity: 1;
+      visibility: visible;
     }
     #loading-overlay.hidden {
       opacity: 0;
@@ -434,130 +438,10 @@
       }
     }
 
-    @media (max-width: 1024px) {
-      .header-container {
-        padding: 30px 6vw;
-      }
-    
-      .left-buttons img,
-      .right-button img {
-        height: 60px;
-      }
-    
-      .center-button {
-        width: 120px;
-        height: 120px;
-        left: 40%;
-      }
-    
-      .section1-right-container {
-        width: 600px;
-        height: 550px;
-      }
-      .dev-logo-main-right {
-        width: 30%;
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .header-container {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 15px 10vw;
-        gap: 10px;
-      }
-    
-      .left-buttons,
-      .right-button {
-        gap: 5vw;
-      }
-    
-      .left-buttons img,
-      .right-button img {
-        height: 40px;
-      }
-    
-      .center-button {
-        width: 600px;
-        height: 600px;
-        top: 40%;
-        left: 80%;
-        transform: translate(-50%, -50%);
-      }
-    
-      .marquee {
-        height: 40px;
-      }
-    
-      .marquee-content img {
-        height: 40px;
-      }
-    
-      .section1-right-container {
-        width: 500px;
-        height: 450px;
-      }
-      .dev-logo-main-right {
-        width: 25%;
-      }
-      
-      .floating-image, .left-image {
-        width: 150px;
-      }
-      .roadmap-bottom-image {
-        width: 200px;
-      }
-
-      .home-image {
-        left: 30%;
-        width: 60%;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .left-buttons img,
-      .right-button img {
-        height: 40px;
-      }
-    
-      .center-button {
-        width: 130px;
-        height: 130px;
-      }
-    
-      .marquee {
-        height: 30px;
-      }
-    
-      .marquee-content img {
-        height: 30px;
-      }
-    
-      .section1-right-container {
-        width: 300px;
-        height: 300px;
-      }
-      .dev-logo-main-right {
-        width: 20%;
-      }
-      
-      .floating-image, .left-image {
-        width: 120px;
-      }
-      .roadmap-bottom-image {
-        width: 150px;
-      }
-
-      .home-image {
-        left: 25%;
-        width: 70%;
-      }
-    }
-    
     #section1, #section2, #section3 {
       background: transparent;
     }
-    
+
     .section2-left-image {
       position: absolute;
       left: 5%;
@@ -1020,9 +904,22 @@
       }
     }
   </style>
+
+  <script>
+    // Функция для определения мобильных устройств
+    function isMobileDevice() {
+      return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Перенаправление на mobile.html, если устройство мобильное
+    if (isMobileDevice() && !window.location.pathname.includes('mobile.html')) {
+      window.location.href = '/mobile.html'; // Убедитесь, что путь к mobile.html правильный
+    }
+    // Нет необходимости скрывать body, так как мы удалили display: none;
+  </script>
 </head>
 <body>
-
+  
   <video id="background-video" autoplay muted loop playsinline>
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplZjhiNDNhZC1lYjJlLTRjODMtODBhYS02NTZmYzBiN2NmZmM=/BG.webm" type="video/webm">
     Ваш браузер не поддерживает видео.
@@ -1209,6 +1106,7 @@
   </div>
   
   <script>
+    // Получаем элементы
     const loadingOverlay = document.getElementById('loading-overlay');
     const loadingProgressBar = document.getElementById('loading-progress-bar');
     const proceedButton = document.getElementById('proceed-button');
@@ -1362,29 +1260,5 @@
     });
   </script>
 
-  <script>
-    // Функция для определения мобильного устройства
-    function isMobileDevice() {
-      return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-  
-    // Перенаправление на mobile.html, если устройство мобильное и текущая страница не mobile.html
-    if (isMobileDevice() && !window.location.pathname.includes('mobile.html')) {
-      window.location.href = '/mobile.html'; // Убедитесь, что путь к mobile.html правильный
-    }
-  </script>
-
-  
-<script>
-  // Скрипт перенаправления
-  function isMobileDevice() {
-    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  }
-
-  if (isMobileDevice() && !window.location.pathname.includes('mobile.html')) {
-    window.location.href = '/mobile.html';
-  }
-</script>
 </body>
 </html>
-
