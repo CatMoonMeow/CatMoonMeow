@@ -222,6 +222,50 @@
         padding-top: 150px; /* Уменьшенный отступ для мобильных устройств */
       }
     }
+
+    /* Дополнительные стили для очень маленьких экранов (например, iPhone SE) */
+    @media (max-width: 375px) {
+      .home-extra-button {
+        position: fixed; /* Закрепляем кнопку внизу экрана */
+        bottom: 90px; /* Отступ снизу 20px */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px; /* Дополнительное уменьшение размера */
+        height: 180px;
+        z-index: 3; /* Убедитесь, что кнопка находится поверх других элементов */
+      }
+      
+      /* При необходимости, уменьшите размеры дополнительных элементов */
+      .home-button {
+        width: 100px;
+        height: 100px;
+      }
+    
+      .navbar .top-buttons img {
+        width: 90px;
+        height: 90px;
+      }
+    
+      .navbar .bottom-button img {
+        max-height: 120px;
+      }
+    
+      .navbar .bottom-button {
+        top: -40px;
+      }
+    
+      .marquee {
+        height: 50px;
+      }
+    
+      .marquee-content img {
+        height: 50px;
+      }
+    
+      .container {
+        padding-top: 130px;
+      }
+    }
   </style>
 </head>
 <body>
