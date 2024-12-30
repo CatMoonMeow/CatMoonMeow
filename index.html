@@ -974,7 +974,7 @@
 
     @media (max-width: 768px) {
       .balenciaga-left-image {
-        width: 200px;
+        width: 500px;
       }
 
       .dropdown-button img {
@@ -1361,6 +1361,30 @@
       });
     });
   </script>
+
+  <script>
+    // Функция для определения мобильного устройства
+    function isMobileDevice() {
+      return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
   
+    // Перенаправление на mobile.html, если устройство мобильное и текущая страница не mobile.html
+    if (isMobileDevice() && !window.location.pathname.includes('mobile.html')) {
+      window.location.href = '/mobile.html'; // Убедитесь, что путь к mobile.html правильный
+    }
+  </script>
+
+  
+<script>
+  // Скрипт перенаправления
+  function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  if (isMobileDevice() && !window.location.pathname.includes('mobile.html')) {
+    window.location.href = '/mobile.html';
+  }
+</script>
 </body>
 </html>
+
