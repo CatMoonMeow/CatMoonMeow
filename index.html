@@ -1,260 +1,1272 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MEOW - Mobile</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MEOW</title>
   <link rel="icon" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png" type="image/png">
+  
+  <link rel="preload" as="video" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5ZTk2NDJlZi1iMGJmLTQ5ZTItYTJiMi02OGEyMDZlZjJjZmM=/MAIN%20BG.webm">
+
   <style>
-    /* Общие стили для тела и html */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: Arial, sans-serif;
-      overflow: hidden; /* Отключаем прокрутку */
-      position: relative;
+    /* Скрываем тело страницы по умолчанию, чтобы предотвратить "мигание" содержимого */
+    body {
+      display: none;
     }
 
-    /* Фоновое видео */
-    .background-video {
+    /* Ваши существующие стили */
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after, q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    html, body{
+      box-sizing: border-box;
+      margin: 0;
+    }
+    *, *::after, *::before{
+      box-sizing: inherit;
+    }
+    
+    /* Остальные ваши стили остаются без изменений */
+    /* ... (Весь ваш существующий CSS здесь) ... */
+
+    #background-video {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1; /* Размещаем видео за контентом */
+      z-index: 1;
+      pointer-events: none;
     }
 
-    /* Навигационная панель */
-    .navbar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
+    #loading-overlay img {
+      width: 70px;
+      height: auto;
+    }
+
+    #loading-overlay {
+      position: fixed;
       top: 0;
-      width: 100%;
-      padding: 10px 0;
-      background-color: transparent; /* Прозрачный фон */
-      z-index: 1; /* Размещаем поверх фонового видео */
-    }
-
-    /* Верхняя строка с тремя изображениями */
-    .navbar .top-buttons {
-      display: flex;
-      justify-content: center;
-      margin-top: 2px; /* Отступ сверху 2px */
-      margin-bottom: 15px; /* Отступ снизу 15px */
-      gap: 30px; /* Расстояние между кнопками 30px */
-    }
-
-    .navbar .top-buttons a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .navbar .top-buttons img {
-      width: 120px; /* Размер увеличен в 3 раза */
-      height: 120px; /* Размер увеличен в 3 раза */
-      cursor: pointer;
-      transition: transform 0.3s;
-      background: transparent; /* Прозрачный фон */
-    }
-
-    .navbar .top-buttons img:hover {
-      transform: scale(1.1);
-    }
-
-    /* Нижняя строка с одной большой кнопкой */
-    .navbar .bottom-button {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 15px; /* Отступ сверху 15px */
-    }
-
-    .navbar .bottom-button a {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .navbar .bottom-button img {
-      width: 100%;
-      max-height: 180px; /* Размер увеличен в 3 раза */
-      cursor: pointer;
-      transition: opacity 0.3s;
-      background: transparent; /* Прозрачный фон */
-    }
-
-    .navbar .bottom-button img:hover {
-      opacity: 0.8;
-    }
-
-    /* Контейнер для всех блоков */
-    .container {
-      position: relative;
+      left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1; /* Размещаем выше фонового видео и навигационной панели */
-      padding-top: 300px; /* Отступ сверху, чтобы контент не перекрывался навигацией */
-      box-sizing: border-box;
+      background-color: rgba(0, 0, 0, 0.95);
+      z-index: 100000; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+    #loading-overlay.show {
+      opacity: 1;
+      visibility: visible;
     }
 
-    /* Общие стили для блоков */
-    .section {
+    #loading-container {
+      position: relative;
+      width: 80%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #loading-progress {
+      width: 100%;
+      height: 20px;
+      background-color: #444;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+      position: relative;
+    }
+    #loading-progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: #FFAB00;
+      transition: width 0.3s ease;
+    }
+
+    #loading-image {
+      position: absolute;
+      bottom: 58%;
+      left: 0%;
+      transform: translate(-50%, 50%);
+      transition: left 0.3s ease;
+      width: 70px;
+      height: auto;
+      z-index: 100002;
+    }
+
+    #proceed-button {
+      margin-top: 30px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: none;
+      z-index: 100002;
+    }
+    #proceed-button img {
+      width: 200px;
+      height: 200px;
+      transition: transform 0.3s ease;
+    }
+    #proceed-button img:hover {
+      transform: scale(1.1);
+    }
+    
+    .section, .home {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0;
+      display: none;
+      transition: opacity 0.8s ease;
+      z-index: 2; 
+    }
+    .section.visible, .home.visible {
+      display: block;
+      opacity: 1;
+    }
+    
+    .home {
+      z-index: 3; 
+    }
+    
+    .section::before, .home::before {
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      display: none; /* Скрываем все блоки по умолчанию */
-      padding: 20px;
-      box-sizing: border-box;
-      overflow: auto; /* Внутренняя прокрутка при необходимости */
-      background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для читаемости */
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1; 
+      pointer-events: none;
     }
-
-    .section.active {
-      display: block; /* Отображаем только активный блок */
-    }
-
-    /* Стили для конкретных блоков */
-    #home { background-color: rgba(0, 0, 0, 0.7); }
-    #block1 { background-color: rgba(26, 26, 26, 0.8); }
-    #block2 { background-color: rgba(42, 42, 42, 0.8); }
-    #block3 { background-color: rgba(58, 58, 58, 0.8); }
-    #block4 { background-color: rgba(74, 74, 74, 0.8); }
-
-    /* Кнопка Home */
-    .home-button {
+    
+    .center-button {
       position: absolute;
-      bottom: 20px;
+      top: 53%;
+      left: 35%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      cursor: pointer;
+      overflow: visible;
+      z-index: 4; 
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .center-button img {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s ease;
+    }
+    .center-button::after {
+      content: "";
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png');
+      background-size: cover;
+      transition: bottom 0.5s ease;
+      z-index: -1;
+    }
+    .center-button:hover img {
+      transform: scale(1.1);
+    }
+    .center-button:hover::after {
+      bottom: 80px;
+    }
+    
+    .floating-image {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+      width: 900px;
+      animation: float 60s ease-in-out infinite;
+      z-index: 4;
+    }
+    
+    .left-image {
+      position: absolute;
+      left: 9%;
+      top: 40%;
+      transform: translateY(-50%) scale(1);
+      width: 600px;
+      z-index: 4;
+    }
+    .left-image:hover {
+    }
+    
+    .roadmap-bottom-image {
+      position: absolute;
+      bottom: 0;
       left: 50%;
       transform: translateX(-50%);
+      width: 1300px;
+      animation: scaleUpDown 30s ease-in-out infinite;
+      z-index: 1;
+    }
+    
+    @keyframes scaleUpDown {
+      0% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+      100% { transform: translateX(-50%) scale(1); }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(-50%) scale(1) translateX(0%); }
+      25% { transform: translateY(-50%) scale(1.025) translateX(2.5%); }
+      50% { transform: translateY(-50%) scale(1) translateX(0%); }
+      75% { transform: translateY(-50%) scale(0.975) translateX(-2.5%); }
+      100% { transform: translateY(-50%) scale(1) translateX(0%); }
+    }
+    
+    @keyframes float-left {
+      0% { transform: translateY(-50%) scale(1) translateX(0%); }
+      25% { transform: translateY(-50%) scale(1.025) translateX(-2.5%); }
+      50% { transform: translateY(-50%) scale(1) translateX(0%); }
+      75% { transform: translateY(-50%) scale(0.975) translateX(2.5%); }
+      100% { transform: translateY(-50%) scale(1) translateX(0%); }
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 40px 8.8vw;
+      box-sizing: border-box;
+      z-index: 1000; 
+    }
+    .left-buttons, .right-button {
+      display: flex;
+      gap: 2.5vw;
+    }
+    
+    .left-buttons img,
+    .right-button img {
+      height: 70px;
+      width: auto;
       cursor: pointer;
-      transition: transform 0.3s;
-      width: 160px; /* Размер увеличен в 4 раза */
-      height: 160px; /* Размер увеличен в 4 раза */
-      background: transparent; /* Прозрачный фон */
+      transition: transform 0.8s ease;
+    }
+    
+    .left-buttons img.active,
+    .right-button img.active {
+      transform: scale(1.12); 
+      animation: active-pulse 1.5s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    
+    @keyframes active-pulse {
+      0% {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      }
+      100% {
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+      }
+    }
+    
+    .left-buttons a:nth-child(1) img:hover {
+      transform: scale(1.04) rotate(-2deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .left-buttons a:nth-child(2) img:hover {
+      transform: scale(1.06) rotate(4deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .left-buttons a:nth-child(3) img:hover {
+      transform: scale(1.05) rotate(-3deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .right-button a img:hover {
+      transform: scale(1.07) rotate(-3deg);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    
+    .marquee {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      overflow: hidden;
+      z-index: 4; 
+      background: transparent;
+      white-space: nowrap;
+      display: flex;
+    }
+    .marquee-content {
+      display: flex;
+      animation: marquee 40s linear infinite;
+    }
+    .marquee-content img {
+      display: block;
+      height: 100%;
+      flex-shrink: 0;
+    }
+    
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+    
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    @keyframes pulsate {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    .pulsate {
+      animation: pulsate 2s infinite;
+    }
+    
+    .home-button {
+      position: fixed;
+      bottom: -120px;
+      right: 3px;
+      width: 150px;
+      height: 150px;
+      z-index: 10000; 
+      cursor: pointer;
+      animation: pulsate 0.5s infinite;
+    }
+    .home-button.scroll-link img {
+      width: 100%;
+      height: auto;
     }
 
-    .home-button:hover {
+    .home-image {
+      position: absolute;
+      bottom: 110px;
+      left: 24.5%;
+      transform: translateX(-50%);
+      width: 30%;
+      z-index: 5;
+    }
+
+    @media (max-width: 1024px) {
+      .home-image {
+        left: 35%;
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .home-image {
+        left: 30%;
+        width: 60%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .home-image {
+        left: 25%;
+        width: 70%;
+      }
+    }
+
+    #section1, #section2, #section3 {
+      background: transparent;
+    }
+
+    .section2-left-image {
+      position: absolute;
+      left: 5%;
+      top: -220px;
+      transform: translateY(-50%);
+      width: 39%;
+      z-index: 2;
+      transition: top 0.3s ease;
+    }
+
+    .section3-left-image {
+      position: absolute;
+      left: 5%;
+      top: 20px;
+      transform: translateY(-50%);
+      width: 50%;
+      z-index: 2;
+      transition: top 0.3s ease;
+    }
+
+    .section2-right-image {
+      position: absolute;
+      right: 10%;
+      top: 23%;
+      transform: translateY(-50%);
+      width: 39%;
+      z-index: 2;
+      transition: top 0.3s ease;
+    }
+
+    .section3-right-image {
+      position: absolute;
+      right: 10%;
+      top: 23%;
+      transform: translateY(-50%);
+      width: 39%;
+      z-index: 2;
+      transition: top 0.3s ease;
+    }
+
+    .volume-icon {
+      width: 24px;
+      height: 24px;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 100002;
+      position: relative;
+    }
+
+    .volume-control {
+      position: relative;
+    }
+
+    .volume-slider-container {
+      position: absolute;
+      top: 65px;
+      right: 30%;
+      background: rgba(255, 171, 0, 0.7);
+      padding: 10px;
+      border-radius: 8px;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.9s ease;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+      pointer-events: none;
+      z-index: 100001;
+    }
+
+    .volume-control:hover .volume-slider-container {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #volume-slider {
+      -webkit-appearance: none;
+      writing-mode: vertical-rl;
+      direction: rtl;
+      width: 5px;
+      height: 100px;
+      background: linear-gradient(to top, white 0%, white var(--slider-progress, 0%), rgba(255, 255, 255, 0.7) var(--slider-progress, 0%),rgba(255, 0, 0, 0.7) 100%);
+      border-radius: 5px;
+      outline: none;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    #volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #000;
+    }
+    
+    #volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background:rgba(126, 118, 101, 0.7);
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #000;
+    }
+    
+    .volume-slider-container::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      right: 10px;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent rgba(0, 0, 0, 0.7) transparent;
+    }
+    
+    .section2-buttons-section2 {
+      position: absolute;
+      bottom: 2.5%;
+      left: 56%;
+      transform: translate(-50%, 0);
+      display: flex;
+      gap: 50px;
+      z-index: 4; 
+    }
+    .section2-buttons-section2 a img {
+      width: 90px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .section2-buttons-section2 a img:hover {
+      transform: scale(1.1);
+    }
+    
+    .section3-buttons {
+      position: absolute;
+      bottom: calc(2.5% + 120px);
+      left: calc(58% + 40px);
+      transform: translate(-50%, 0);
+      display: flex;
+      gap: 50px;
+      z-index: 4; 
+    }
+    .section3-buttons a img {
+      width: 90px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .section3-buttons a img:hover {
+      transform: scale(1.1);
+    }
+    
+    #section1, #section2, #section3 {
+      background-image: none;
+      background-size: cover;
+      background-position: center;
+      z-index: 3; 
+    }
+    .section1-left-container {
+      position: absolute;
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 745px;
+      height: 683px;
+      z-index: 4; 
+    }
+    .dev-logo-main {
+      position: absolute;
+      top: -90px;
+      left: 190px;
+      width: 38%;
+      display: block;
+      z-index: 3; 
+    }
+    .dev-rotation-elements {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      width: 120%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      z-index: 1; 
+    }
+    .dev-rotation-elements.pulsate {
+      animation: pulsate 15s infinite;
+    }
+    
+    .section1-right-container {
+      position: absolute;
+      right: 250px;
+      top: 50%;
+      transform: translateY(-70%);
+      width: 400px; 
+      height: 400px; 
+      z-index: 4; 
+    }
+    
+    .dev-logo-main-right {
+      position: absolute;
+      top: -220px;
+      left: 100px;
+      width: 75%;
+      display: block;
+      z-index: 3; 
+    }
+    
+    .dev-rotation-elements-right {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      width: 120%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      z-index: 1; 
+    }
+    .dev-rotation-elements-right.pulsate {
+      animation: pulsate 10s infinite;
+    }
+    
+    #section3, #section4 {
+      background-size: cover;
+      background-position: center;
+      z-index: 3; 
+    }
+    #section3 video,
+    #section4 video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 4; 
+    }
+    
+    #transition-overlay {
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 100000; 
+      background: transparent;
+    }
+    #transition-video {
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover;
+    }
+    #volume-button {
+      padding: 0;
+      box-shadow: none;
+      background: none;
+      border: none;
+    }
+
+    #section4 {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balenciaga-background-image {
+      position: absolute;
+      left: 600px;
+      bottom: -400px;
+      transform: translateX(-50%) scale(1.4);
+      width: 820px;
+      height: auto;
+      z-index: 1;
+      animation: scaleUpDownBackground 30s ease-in-out infinite;
+    }
+
+    @keyframes scaleUpDownBackground {
+      0% { transform: translateX(-50%) scale(1.4); }
+      50% { transform: translateX(-50%) scale(1.54); }
+      100% { transform: translateX(-50%) scale(1.4); }
+    }
+
+    .balenciaga-left-image {
+      position: absolute;
+      left: 600px;
+      bottom: -3%;
+      transform: translateX(-50%);
+      width: 820px;
+      max-width: none;
+      height: auto;
+      z-index: 5;
+      transition: transform 0.3s ease;
+    }
+
+    .balenciaga-right-container {
+      position: absolute;
+      right: 30%;
+      bottom: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .dropdown-button {
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 50px;
+      transition: transform 0.3s ease;
+      transform: translateX(300px);
+      z-index: 2001;
+    }
+
+    .dropdown-button img {
+      width: 400px;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-button:hover img {
       transform: scale(1.1);
     }
 
-    /* Адаптивные стили для мобильных устройств */
-    @media (max-width: 600px) {
-      .navbar .top-buttons img {
-        width: 90px; /* Уменьшено для мобильных устройств */
-        height: 90px;
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 28px;
+      z-index: 2000;
+    }
+
+    .dropdown-button.active .dropdown-content {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      animation: slideDown 0.3s ease forwards;
+      z-index: 2000;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .balenciaga-static-image {
+      width: 800px;
+      height: auto;
+      transition: transform 0.3s ease;
+      position: relative;
+      left: 300px;
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content a::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s ease;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .dropdown-content a:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @media (max-width: 1024px) {
+      .balenciaga-left-image {
+        width: 250px;
       }
 
-      .navbar .bottom-button img {
-        max-height: 135px; /* Соответствует уменьшенному размеру */
+      .dropdown-button img {
+        width: 80px;
       }
 
-      .home-button {
-        width: 120px; /* Уменьшено для мобильных устройств */
-        height: 120px;
+      .dropdown-content img {
+        width: 150px;
       }
 
-      .container {
-        padding-top: 200px; /* Уменьшенный отступ для мобильных устройств */
+      .balenciaga-static-image {
+        width: 120px;
+      }
+
+      .balenciaga-background-image {
+        width: 1148px;
+        left: 600px;
+        bottom: 300px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .balenciaga-left-image {
+        width: 500px;
+      }
+
+      .dropdown-button img {
+        width: 70px;
+      }
+
+      .dropdown-content img {
+        width: 120px;
+      }
+
+      .balenciaga-static-image {
+        width: 100px;
+      }
+
+      .balenciaga-background-image {
+        width: 248px;
+        left: 600px;
+        bottom: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .balenciaga-left-image {
+        width: 150px;
+      }
+
+      .dropdown-button img {
+        width: 120px;
+      }
+
+      .dropdown-content img {
+        width: 100px;
+      }
+
+      .balenciaga-static-image {
+        width: 300px;
+      }
+
+      .balenciaga-background-image {
+        width: 248px;
+        left: 600px;
+        bottom: 300px;
       }
     }
   </style>
+
+  <script>
+    // Функция для определения мобильных устройств
+    function isMobileDevice() {
+      return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Перенаправление на mobile.html, если устройство мобильное
+    if (isMobileDevice()) {
+      window.location.href = '/mobile.html'; // Убедитесь, что путь к mobile.html правильный
+    } else {
+      // Показываем содержимое страницы, если устройство не мобильное
+      document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.display = 'block';
+      });
+    }
+  </script>
 </head>
 <body>
-
-  <!-- Фоновое видео -->
-  <video class="background-video" autoplay muted loop playsinline>
-    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTowZGQxZjc1Yi04MGQwLTQ0ZWUtOGVkYy1iNWQ5NGRlYTJmNWM=/mobile%20bg-.webm" type="video/webm">
-    <!-- Альтернативный формат видео для лучшей совместимости -->
-    <!-- <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/mobile-bg.mp4" type="video/mp4"> -->
+  
+  <video id="background-video" autoplay muted loop playsinline>
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplZjhiNDNhZC1lYjJlLTRjODMtODBhYS02NTZmYzBiN2NmZmM=/BG.webm" type="video/webm">
     Ваш браузер не поддерживает видео.
   </video>
 
-  <!-- Навигационная панель -->
-  <div class="navbar">
-    <!-- Верхняя строка с тремя изображениями -->
-    <div class="top-buttons">
-      <a href="#" onclick="showSection('block1')" aria-label="Перейти к Блоку 1">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Блок 1">
-      </a>
-      <a href="#" onclick="showSection('block2')" aria-label="Перейти к Блоку 2">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="Блок 2">
-      </a>
-      <a href="#" onclick="showSection('block3')" aria-label="Перейти к Блоку 3">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Блок 3">
-      </a>
-    </div>
-    <!-- Нижняя строка с одной большой кнопкой -->
-    <div class="bottom-button">
-      <a href="#" onclick="showSection('block4')" aria-label="Перейти к Блоку 4">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Блок 4">
-      </a>
-    </div>
-  </div>
-
-  <!-- Контейнер для всех блоков -->
-  <div class="container">
-    <!-- Главная страница (Home) -->
-    <div id="home" class="section active">
-      <div class="content">
-        <h1>MEOW!</h1>
-        <p>Добро пожаловать на главную страницу!</p>
+  <div id="loading-overlay">
+    <div id="loading-container">
+      <img id="loading-image" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0NDQ5NmQ1NS0xOGUzLTRhNTYtYmFiYS1iODczNjQ3NjFjYzI=/Comp%201.gif" alt="Loading Image" />
+      <div id="loading-progress">
+        <div id="loading-progress-bar"></div>
       </div>
     </div>
-
-    <!-- Блок 1 -->
-    <div id="block1" class="section">
-      <h1>Блок 1</h1>
-      <p>Содержимое первого блока.</p>
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
-    </div>
-
-    <!-- Блок 2 -->
-    <div id="block2" class="section">
-      <h1>Блок 2</h1>
-      <p>Содержимое второго блока.</p>
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
-    </div>
-
-    <!-- Блок 3 -->
-    <div id="block3" class="section">
-      <h1>Блок 3</h1>
-      <p>Содержимое третьего блока.</p>
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
-    </div>
-
-    <!-- Блок 4 -->
-    <div id="block4" class="section">
-      <h1>Блок 4</h1>
-      <p>Содержимое четвертого блока.</p>
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
-    </div>
+    <button id="proceed-button">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjOTc2Y2U0MC0wZjk0LTRiZDUtODFlMC01OTAxMDE1N2I4NjQ=/about.svg" alt="Proceed Button">
+    </button>
   </div>
 
+  <div id="transition-overlay">
+    <video id="transition-video" preload="auto">
+      <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1NTZiOTMwNi1lNDExLTRlNDctYWJmYy00YmExMTY0OGQxZmM=/Organic_10_1%20(1).webm" type="video/webm">
+      Ваш браузер не поддерживает видео.
+    </video>
+  </div>
+  
+  <audio id="background-music" loop preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZToxNDk2YWNlMS1jMTI5LTQyZjMtYjYwZi1mNDdhNDYxN2E0M2I=/Music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <audio id="meow-sound" preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0YzQzNjY1My1jN2VlLTQ2ZjMtODFhOS1kNmI5YzIzNDRiZGI=/ES_Meow,%20Multiple,%20Short,%20Fast%20-%20Epidemic%20Sound%20(mp3cut.net).mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <audio id="sound1" preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5NzQ3YmI4Ni0wN2JkLTQ5NTUtOGEzOC1mOGIwNjRlZmRkNDI=/1%20click.m4a" type="audio/mp4">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="sound2" preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZToxZWE5NmU0NS1kMDE0LTQ2MTgtYmUyYy03YmIxOWE0ODUxODU=/2%20click.m4a" type="audio/mp4">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="sound3" preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5YTlmMTc2Ny0xZTM3LTRjZmQtYmQxZC1lMGU2ZDgyZmY0MDc=/3%20click.m4a" type="audio/mp4">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="sound4" preload="auto">
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5NTMzYjVjYi05MjJhLTQxMmEtYmFlMS01NDE3YTZlN2M4ODY=/4%20click.m4a" type="audio/mp4">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <div class="header-container">
+    <div class="left-buttons">
+      <a href="#section1" class="scroll-link" data-sound="sound1">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Roadmap">
+      </a>
+      <a href="#section2" class="scroll-link" data-sound="sound2">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="About">
+      </a>
+      <a href="#section3" class="scroll-link" data-sound="sound3">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Contact">
+      </a>
+    </div>
+    <div class="right-button">
+      <a href="#section4" class="scroll-link" data-sound="sound4">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToxZDI3ZGI1OS1hZjFiLTRhYTQtOTFmOC03NDMyMmFkYjE5MzQ=/ART%20SHOW.svg" alt="Balenciaga">
+      </a>
+      
+      <div class="volume-control">
+        <button id="volume-button" class="volume-button">
+          <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmMTY5Y2U5MC1mNWUwLTQzNDItOGM2Ny0wMDZjMWM1ZTg0MGQ=/sound%20on.svg" alt="Volume Icon" class="volume-icon">
+        </button>
+        <div id="volume-slider-container" class="volume-slider-container">
+          <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.2">
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <a href="#home" class="home-button scroll-link" id="home-button">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5YTJiZWRlYi1jYTIxLTRjOWEtYjdhNy0xZDNhMDFmYjZlODI=/HOME%20(1).svg" alt="Home Button">
+  </a>
+  
+  <div class="home" id="home">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo2MzBjODViZC03OTJjLTQ5MWQtYjg1Mi0wMDRhMmNhY2E1NmE=/CAT%20MOON%20MEoWL.svg" alt="CAT MOON MEoWL" class="left-image">
+    
+    <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank" class="center-button" id="center-button">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Main Button">
+    </a>
+  
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplYzBiZjQzNi1hODJlLTQ5NzYtYTE5ZC03ODAyNDhiZDA4ZjA=/MEOW%20Main%20page%20R.webp" alt="Floating Image" class="floating-image">
+  
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiOTE3MzdlYy1jZjI4LTRmMTgtYWQzZC03ZDk3MzZjZjliYjI=/MEOW%20strives%20to%20survive%20in%20a%20world%20full%20of%20chaos%20and%20disorder.%20He%20finds%20his%20home%20on%20the%20moon,%20and%20this%20story%20follows%20his%20journey%20to%20different%20planets,%20highlighting%20his%20ups%20and%20downs%20Join%20the%20com.svg" alt="Описание изображения" class="home-image">
+  
+    <div class="marquee">
+      <div class="marquee-content">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmNThlMDM5My05ODIxLTQ1YTItYmE3NC1iOTE4MjliZmZhNWU=/Vector%20(1).svg" alt="Running Image">
+      </div>
+    </div>
+  </div>
+  
+  <div class="section" id="section1">
+    <div class="section1-left-container fade-in visible">
+      <img class="dev-logo-main" src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyYjNkNDU2Zi1lMjQ2LTQ3ZDEtYWUyZS0xMTNjZGU0YmY1ZDk=/DEV_LOGO_MAIN.svg" alt="Dev Logo Main" />
+      <img class="dev-rotation-elements fade-in pulsate visible" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpmODkzYjM0Yy1hZWZhLTQxYmMtODZlOS1mZWIyMTkxZDk1OTY=/DEV_ROTATION_ELEMENTS.svg" alt="Dev Rotation Elements" />
+    </div>
+    
+    <div class="section1-right-container fade-in visible">
+      <img class="dev-logo-main-right" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3N2M1YWEwOC1jY2Y1LTQwYTItODdhOS02MmY0ODZiZWQ3OGM=/Group%2034.svg" alt="New Dev Logo Main Right" />
+      <img class="dev-rotation-elements-right fade-in pulsate visible" src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplZWRhMzA4ZS1iYmVmLTRmODItYTUwMS1jMDdlMjliYTMzNGE=/Group%2034%20(4).svg" alt="New Dev Rotation Elements Right" />
+    </div>
+  
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToxMGRmMmFjMC00NDgzLTQwMDEtYTBhOC02NjM0ODUzODI3MTk=/RoadMapB.webp" alt="Roadmap Bottom Image" class="roadmap-bottom-image">
+  </div>
+  
+  <div class="section" id="section2">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMTRiMWEyOS04NmFkLTRlNmEtYTM0Ni0yOTViNDhjYmYxMTk=/Welcome.webp" alt="Left Image" class="section2-left-image fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo4ZWJmY2RlNC0wMmZhLTQ1MDYtYjk3NS0zMGY0NjVmNzA3MjE=/Right.svg" alt="Right Image" class="section2-right-image fade-in visible"/>
+    
+    <div class="section2-buttons-section2 fade-in visible">
+      <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0NzEwYzAxNi0yODIyLTRmN2ItYTc3Mi0zYmEwNTVkMzVhNTk=/3.svg" alt="Button 1">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZTE4NTIyNy1lNzhjLTRkMzctYTYwOS0wMTJiYWJlNzk5MTI=/2.svg" alt="Button 2">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZDMwYzU0NC0yY2U1LTQ5OTMtOTgzMS1kZjJjMzQ4YWYyZDE=/1.svg" alt="Button 3">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiMzhhODBhYS05OWI3LTRmMjUtOWEwZS0yNTAwMDY3MzkxODc=/4.svg" alt="Button 4">
+      </a>
+    </div>
+  </div>
+  
+  <div class="section" id="section3">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZToyZDNiODYwMi0wN2U2LTRiOWEtYmE1NS1mMmI3YjMzYjY1YzE=/Main%20pfp.webp" alt="Left Image" class="section3-left-image fade-in visible"/>
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjNzRlY2I3Ni1hN2FhLTRkYWMtYWZiNS1mMTM5MWM0YWM2NTk=/ооо.svg" alt="Right Image" class="section3-right-image fade-in visible"/>
+    
+    <div class="section3-buttons fade-in visible">
+      <a href="https://www.tiktok.com/@cat_moon_meow" target="_blank" data-sound="sound1">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5ZWVkM2Q0Yi02ZGZiLTRjOTMtYTBkNi04NmEyNjlhZDIwZTk=/1.png" alt="Button 1">
+      </a>
+      <a href="https://x.com/m_o_o_n_sol" target="_blank" data-sound="sound2">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplYzZkZTM4YS1lYTYwLTQ2YzItYTUyOC0yNTI3YmY0MDgyMWY=/3.png" alt="Button 3">
+      </a>
+      <a href="https://t.me/Cat_Moon_Meow_Portal" target="_blank" data-sound="sound3">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjNDM2OTIwOS03ODIxLTRhY2YtYjlhNS04MjQ5NGRmZDQzZDc=/4.png" alt="Button 4">
+      </a>
+    </div>
+  
+  </div>
+  
+  <div class="section" id="section4">
+    <video autoplay muted loop style="width: 100%; height: 100%; object-fit: cover;">
+      <source src="https://example.com/video4.webm" type="video/webm">
+      Ваш браузер не поддерживает видео.
+    </video>
+
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MDQ4NThjYi1hMGNhLTQ5ZjMtODE1MS00ZmZjMzAzMDQ4OTU=/PngItem_5662226.webp" alt="Balenciaga Background Image" class="balenciaga-background-image">
+
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiNzYxMjUzOS0wNjA0LTRhNGMtYjJhOC0yMmU1MGJiY2U3N2Y=/Balenciaga%20(2).webp" alt="Balenciaga Static Image" class="balenciaga-left-image">
+    
+    <div class="balenciaga-right-container">
+      <button class="dropdown-button" id="dropdown-button">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Dropdown Button">
+        <div class="dropdown-content">
+          <a href="https://www.mytheresa.com/us/en/men/balenciaga-logo-leather-jacket-black-p00930197?dplink=true&utm_source=sea_pla&utm_medium=google&utm_campaign=google_sea&ef_id=CjwKCAiA9vS6BhA9EiwAJpnXw6NPVzwhSvxbNAhdafeD1MpmXk0su36RE3dtUbW9eS9k1JZQB_PtXxoCJzsQAvD_BwE&chn=sea_shopping&src=google&cmp=17370050298&tarea=row&tar=&ag=&ptyp=&feed_num=P00930197-1&gclid=CjwKCAiA9vS6BhA9EiwAJpnXw6NPVzwhSvxbNAhdafeD1MpmXk0su36RE3dtUbW9eS9k1JZQB_PtXxoCJzsQAvD_BwE&gbraid=0AAAAAD3Pw-nmDVfJcYHX8XcgtM60Y73ax&gad_source=1&slink=1" target="_blank" rel="noopener noreferrer">
+            <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTphNzFhMjRlZC1mNTU3LTQyNTQtYjllYS1iMTBjODc4MDZlNzY=/Balenciaga222.webp" alt="Balenciaga Product Image">
+          </a>
+        </div>
+      </button>
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0ZDlmNWEyZS04OTQ2LTRhZDUtODE2MC0yZTEwMjliZTljMDk=/BL%20text.svg" alt="Static Image Below Button" class="balenciaga-static-image">
+    </div>
+  </div>
+  
   <script>
-    // Функция для отображения выбранного раздела
-    function showSection(sectionId) {
-      // Получаем все элементы с классом 'section'
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => {
-        // Убираем класс 'active' у всех разделов
-        section.classList.remove('active');
-      });
-      // Добавляем класс 'active' к выбранному разделу
-      const activeSection = document.getElementById(sectionId);
-      if (activeSection) {
-        activeSection.classList.add('active');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const loadingProgressBar = document.getElementById('loading-progress-bar');
+    const proceedButton = document.getElementById('proceed-button');
+    const backgroundMusic = document.getElementById('background-music');
+    const homeSection = document.getElementById('home');
+    const homeButton = document.getElementById('home-button');
+    const loadingImage = document.getElementById('loading-image');
+
+    const mainBgVideo = document.getElementById('background-video');
+
+    let progress = 0;
+    const loadingInterval = setInterval(() => {
+      progress += Math.random() * 10;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(loadingInterval);
+        loadingProgressBar.style.width = progress + '%';
+        loadingImage.style.left = progress + '%';
+        proceedButton.style.display = 'block';
+      } else {
+        loadingProgressBar.style.width = progress + '%';
+        loadingImage.style.left = progress + '%';
       }
+    }, 300);
+
+    proceedButton.addEventListener('click', () => {
+      loadingOverlay.classList.add('hidden');
+      homeSection.classList.add('visible');
+      backgroundMusic.play().catch((error) => {
+        console.log('Background music playback was blocked:', error);
+      });
+      homeButton.style.display = 'none';
+    });
+
+    const volumeSlider = document.getElementById('volume-slider');
+    backgroundMusic.volume = parseFloat(volumeSlider.value);
+    volumeSlider.addEventListener('input', (e) => {
+      backgroundMusic.volume = parseFloat(e.target.value);
+    });
+
+    let currentSection = homeSection;
+
+    function switchSection(newSectionId) {
+      const newSection = document.getElementById(newSectionId.replace('#',''));
+      if (!newSection || newSection === currentSection) return;
+      currentSection.classList.remove('visible');
+      newSection.classList.add('visible');
+      currentSection = newSection;
     }
+
+    const overlay = document.getElementById('transition-overlay');
+    const transitionVideo = document.getElementById('transition-video');
+
+    overlay.style.display = 'none';
+
+    transitionVideo.addEventListener('ended', () => {
+      overlay.style.display = 'none';
+    });
+
+    document.querySelectorAll('.scroll-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        if (currentSection.id === targetId.replace('#','')) return;
+        transitionVideo.pause();
+        transitionVideo.currentTime = 0;
+        transitionVideo.load();
+        overlay.style.display = 'block';
+        transitionVideo.play();
+        setTimeout(() => {
+          switchSection(targetId);
+          if (targetId === '#home') {
+            homeButton.style.display = 'none';
+          } else {
+            homeButton.style.display = 'block';
+          }
+        },1400);
+      });
+    });
+
+    const centerButton = document.getElementById('center-button');
+    centerButton.addEventListener('click', function () {
+      centerButton.classList.add('active-button');
+    });
+
+    const meowSound = document.getElementById('meow-sound');
+    centerButton.addEventListener('mouseenter', () => {
+      meowSound.currentTime = 0;
+      meowSound.play().catch(err => console.log('Error playing sound:', err));
+    });
+    centerButton.addEventListener('mouseleave', () => {
+      meowSound.pause();
+      meowSound.currentTime = 0;
+    });
+
+    const section1 = document.querySelector('#section1');
+    const devRotation = document.querySelector('.dev-rotation-elements');
+    const devRotationRight = document.querySelector('.dev-rotation-elements-right');
+    if (section1 && devRotation && devRotationRight) {
+      section1.addEventListener('mousemove', (e) => {
+        const rect = section1.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * 10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        
+        devRotation.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        devRotationRight.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+    }
+
+    window.addEventListener('load', () => {
+      const hoverSounds = ['sound1', 'sound2', 'sound3', 'sound4'];
+      hoverSounds.forEach(soundId => {
+        const sound = document.getElementById(soundId);
+        if (sound) {
+          sound.volume = 0.1;
+        }
+      });
+      if (currentSection.id === 'home') {
+        homeButton.style.display = 'none';
+      }
+    });
+
+    const buttons = document.querySelectorAll('.scroll-link');
+    buttons.forEach(button => {
+      const soundId = button.getAttribute('data-sound');
+      const sound = document.getElementById(soundId);
+      button.addEventListener('mouseenter', () => {
+        if (sound) {
+          sound.currentTime = 0;
+          sound.play().catch(err => console.log('Error playing hover sound:', err));
+        }
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdownButton = document.getElementById('dropdown-button');
+      dropdownButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownButton.classList.toggle('active');
+      });
+      document.addEventListener('click', (e) => {
+        if (!dropdownButton.contains(e.target)) {
+          dropdownButton.classList.remove('active');
+        }
+      });
+    });
   </script>
 
 </body>
