@@ -1,38 +1,352 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MEOW - Mobile</title>
   <link rel="icon" href="https://storage.googleapis.com/s.mkswft.com/RmlsZTphZTViMWVhZi0wYzI5LTQ0MzgtYTkxMy04YTk5NDJhMjUwOTI=/Main%20pfp.png" type="image/png">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+    /* Общие стили для тела и html */
+    body, html {
       margin: 0;
-      background-color: #000;
-      color: #fff;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden; /* Отключаем прокрутку */
+      position: relative;
     }
-    .content {
-      text-align: center;
+
+    /* Фоновое видео для Home */
+    .home-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2; /* Размещаем видео за контейнером блоков */
+      display: block; /* Показываем по умолчанию */
     }
-    .content h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
+
+    /* Общий фоновый видео для блоков 1-4 */
+    .blocks-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1; /* Размещаем видео за содержимым блоков */
+      display: none; /* Скрываем по умолчанию */
     }
-    .content p {
-      font-size: 1em;
+
+    /* Навигационная панель */
+    .navbar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 10px 0;
+      background-color: transparent; /* Прозрачный фон */
+      z-index: 2; /* Размещаем поверх фоновых видео */
     }
-    /* Добавьте сюда дополнительные стили для будущих элементов */
+
+    /* Верхняя строка с тремя изображениями */
+    .navbar .top-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 2px; /* Отступ сверху 2px */
+      margin-bottom: 15px; /* Отступ снизу 15px */
+      gap: 50px; /* Расстояние между кнопками 50px */
+    }
+
+    .navbar .top-buttons a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar .top-buttons img {
+      width: 160px; /* Размер увеличен */
+      height: 160px; /* Размер увеличен */
+      cursor: pointer;
+      background: transparent; /* Прозрачный фон */
+    }
+
+    /* Нижняя строка с одной большой кнопкой */
+    .navbar .bottom-button {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 15px; /* Отступ сверху 15px */
+      position: relative; /* Добавлено для относительного позиционирования */
+      top: -30px; /* Поднимаем на 30px вверх */
+    }
+
+    .navbar .bottom-button a {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar .bottom-button img {
+      width: 100%;
+      max-height: 180px; /* Размер увеличен */
+      cursor: pointer;
+      background: transparent; /* Прозрачный фон */
+    }
+
+    /* Контейнер для всех блоков */
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1; /* Размещаем выше фоновых видео */
+      padding-top: 200px; /* Отступ сверху, чтобы контент не перекрывался навигацией */
+      box-sizing: border-box;
+    }
+
+    /* Общие стили для блоков */
+    .section {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none; /* Скрываем все блоки по умолчанию */
+      padding: 20px;
+      box-sizing: border-box;
+      overflow: hidden; /* Отключаем прокрутку внутри секции */
+      background: transparent; /* Убираем полупрозрачный фон */
+    }
+
+    .section.active {
+      display: block; /* Отображаем только активный блок */
+    }
+
+    /* Кнопка Home */
+    .home-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+      width: 160px; /* Размер увеличен */
+      height: 160px; /* Размер увеличен */
+      background: transparent; /* Прозрачный фон */
+      z-index: 1; /* Размещаем поверх видео */
+    }
+
+    /* Дополнительная кнопка на главной странице */
+    .home-extra-button {
+      position: absolute;
+      bottom: 160px; /* Поднято на 160px вверх */
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+      width: 320px; /* Увеличен в 2 раза */
+      height: 320px; /* Увеличен в 2 раза */
+      background: transparent; /* Прозрачный фон */
+      z-index: 1; /* Размещаем поверх видео */
+    }
+
+    /* Бегущая строка */
+    .marquee {
+      position: absolute;
+      bottom: 0; /* Располагаем в самом низу секции home */
+      left: -30px; /* Сдвигаем влево на 30px */
+      width: calc(100% + 60px); /* Увеличиваем ширину для компенсации сдвига */
+      overflow: hidden;
+      background-color: transparent; /* Прозрачный фон */
+      z-index: 3; /* Размещаем поверх других элементов */
+      height: 75px; /* Увеличенная высота (50px + 50%) */
+    }
+
+    .marquee-content {
+      display: flex;
+      width: calc(2 * 100%);
+      animation: scroll 20s linear infinite;
+    }
+
+    .marquee-content img {
+      height: 75px; /* Увеличенная высота (50px + 50%) */
+      flex-shrink: 0;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Адаптивные стили для мобильных устройств */
+    @media (max-width: 600px) {
+      .navbar .top-buttons img {
+        width: 90px; /* Уменьшено для мобильных устройств */
+        height: 90px;
+      }
+
+      .navbar .bottom-button img {
+        max-height: 135px; /* Соответствует уменьшенному размеру */
+      }
+
+      .navbar .bottom-button {
+        top: -30px; /* Поднимаем на 30px вверх на мобильных устройствах */
+      }
+
+      .home-button {
+        width: 120px; /* Уменьшено для мобильных устройств */
+        height: 120px;
+      }
+
+      .home-extra-button {
+        bottom: 120px; /* Поднято на 120px вверх на мобильных устройствах */
+        width: 240px; /* Уменьшено для мобильных устройств */
+        height: 240px;
+      }
+
+      .marquee {
+        height: 60px; /* Увеличенная высота (40px + 50%) */
+        left: -30px; /* Сдвигаем влево на 30px */
+        width: calc(100% + 60px); /* Увеличиваем ширину для компенсации сдвига */
+      }
+
+      .marquee-content img {
+        height: 60px; /* Увеличенная высота (40px + 50%) */
+      }
+
+      .container {
+        padding-top: 150px; /* Уменьшенный отступ для мобильных устройств */
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="content">
-    <h1>MEOW!</h1>
-    <p>MEOW!</p>
+
+  <!-- Фоновое видео для Home -->
+  <video class="home-video" autoplay muted loop playsinline>
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplNDQzMDI4MS1lYzZiLTRhNmQtOWY5My00ZGIwMWIzYmRjYmM=/mobile%20bg-_4.webm" type="video/webm">
+    <!-- Альтернативный формат видео для лучшей совместимости -->
+    <!-- <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/mobile-bg.mp4" type="video/mp4"> -->
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Фоновое видео для блоков 1-4 -->
+  <video class="blocks-video" autoplay muted loop playsinline>
+    <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiZjZmMmU4ZS01YjM0LTQ5NjktYTMyMS1mNDg1ZWE2YTA2Nzk=/mobile%20bg-_2.webm" type="video/webm">
+    <!-- Альтернативный формат видео для лучшей совместимости -->
+    <!-- <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/mobile-bg-2.mp4" type="video/mp4"> -->
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Навигационная панель -->
+  <div class="navbar">
+    <!-- Верхняя строка с тремя изображениями -->
+    <div class="top-buttons">
+      <a href="#" onclick="showSection('block1')" aria-label="Go to Block 1">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Block 1">
+      </a>
+      <a href="#" onclick="showSection('block2')" aria-label="Go to Block 2">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="Block 2">
+      </a>
+      <a href="#" onclick="showSection('block3')" aria-label="Go to Block 3">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Block 3">
+      </a>
+    </div>
+    <!-- Нижняя строка с одной большой кнопкой -->
+    <div class="bottom-button">
+      <a href="#" onclick="showSection('block4')" aria-label="Go to Block 4">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Block 4">
+      </a>
+    </div>
   </div>
+
+  <!-- Контейнер для всех блоков -->
+  <div class="container">
+    <!-- Главная страница (Home) -->
+    <div id="home" class="section active">
+      <!-- Дополнительный контент для Home можно добавить здесь -->
+
+      <!-- Дополнительная кнопка на главной странице -->
+      <a href="https://pump.fun/coin/3EnxSbUszY4XPDfmWRJa3jkBUX4Dn8rdh4ZkNQCwpump" aria-label="Дополнительная кнопка">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Дополнительная кнопка" class="home-extra-button">
+      </a>
+
+      <!-- Удалена кнопка Home с главной страницы -->
+
+      <!-- Бегущая строка -->
+      <div class="marquee">
+        <div class="marquee-content">
+          <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1ZDY2M2YyNi02Zjk3LTQyN2MtOGIxYS00ZjcwN2Y1NzFlOGE=/Vector.svg" alt="Marquee Image">
+          <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1ZDY2M2YyNi02Zjk3LTQyN2MtOGIxYS00ZjcwN2Y1NzFlOGE=/Vector.svg" alt="Marquee Image">
+        </div>
+      </div>
+    </div>
+
+    <!-- Блок 1 -->
+    <div id="block1" class="section">
+      <!-- Кнопка Home -->
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+    </div>
+
+    <!-- Блок 2 -->
+    <div id="block2" class="section">
+      <!-- Кнопка Home -->
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+    </div>
+
+    <!-- Блок 3 -->
+    <div id="block3" class="section">
+      <!-- Кнопка Home -->
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+    </div>
+
+    <!-- Блок 4 -->
+    <div id="block4" class="section">
+      <!-- Кнопка Home -->
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+    </div>
+  </div>
+
+  <script>
+    // Функция для отображения выбранного раздела
+    function showSection(sectionId) {
+      // Получаем все элементы с классом 'section'
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        // Убираем класс 'active' у всех разделов
+        section.classList.remove('active');
+      });
+      // Добавляем класс 'active' к выбранному разделу
+      const activeSection = document.getElementById(sectionId);
+      if (activeSection) {
+        activeSection.classList.add('active');
+      }
+
+      // Управление видимостью фоновых видео
+      const homeVideo = document.querySelector('.home-video');
+      const blocksVideo = document.querySelector('.blocks-video');
+
+      if (sectionId === 'home') {
+        homeVideo.style.display = 'block';
+        blocksVideo.style.display = 'none';
+      } else {
+        homeVideo.style.display = 'none';
+        blocksVideo.style.display = 'block';
+      }
+    }
+
+    // Инициализация: показать Home видео и скрыть blocks видео
+    document.addEventListener('DOMContentLoaded', () => {
+      const homeVideo = document.querySelector('.home-video');
+      const blocksVideo = document.querySelector('.blocks-video');
+      homeVideo.style.display = 'block';
+      blocksVideo.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>
