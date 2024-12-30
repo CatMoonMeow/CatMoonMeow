@@ -17,6 +17,32 @@
       position: relative;
     }
 
+    /* Стили для загрузочной страницы (Preloader) */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000; /* Цвет фона загрузочной страницы */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999; /* Высокий z-index, чтобы быть поверх всех элементов */
+      transition: opacity 0.5s ease; /* Плавный переход при скрытии */
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    #preloader-image {
+      width: 200px; /* Регулируйте размер изображения по необходимости */
+      height: auto;
+      cursor: pointer;
+    }
+
     /* Фоновое видео для Home */
     .home-video {
       position: fixed;
@@ -280,16 +306,62 @@
         padding-top: 130px;
       }
     }
+
+    /* Стили для iPhone 13 и похожих устройств */
+    @media only screen and (min-width: 376px) and (max-width: 414px) and (orientation: portrait) {
+      
+      /* Адаптация навигационной панели */
+      .navbar .top-buttons img {
+        max-height: 100px; /* Увеличиваем максимальную высоту изображений */
+        margin-bottom: 20px; /* Корректируем отступы */
+      }
+
+      .navbar .bottom-button img {
+        max-height: 150px; /* Увеличиваем максимальную высоту большой кнопки */
+      }
+
+      .navbar .bottom-button {
+        top: -25px; /* Корректируем позиционирование большой кнопки */
+      }
+
+      .home-button {
+        width: 140px; /* Увеличиваем размер кнопки Home */
+        height: 140px;
+      }
+
+      .home-extra-button {
+        bottom: 140px; /* Корректируем позиционирование дополнительной кнопки */
+        width: 280px; /* Увеличиваем размер дополнительной кнопки */
+        height: 280px;
+      }
+
+      .marquee {
+        height: 70px; /* Увеличиваем высоту бегущей строки */
+      }
+
+      .marquee-content img {
+        height: 70px; /* Соответствует новой высоте бегущей строки */
+      }
+
+      .container {
+        padding-top: 180px; /* Корректируем отступ сверху */
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Загрузочная страница (Preloader) -->
+  <div id="preloader">
+    <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo0NDQ5NmQ1NS0xOGUzLTRhNTYtYmFiYS1iODczNjQ3NjFjYzI=/Comp%201.gif" alt="Загрузка" id="preloader-image">
+  </div>
 
   <!-- Фоновое видео для Home -->
   <video class="home-video" autoplay muted loop playsinline>
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTplNDQzMDI4MS1lYzZiLTRhNmQtOWY5My00ZGIwMWIzYmRjYmM=/mobile%20bg-_4.webm" type="video/webm">
     <!-- Альтернативный формат видео для лучшей совместимости -->
     <!-- <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/mobile-bg.mp4" type="video/mp4"> -->
-    Your browser does not support the video tag.
+    Ваш браузер не поддерживает видео тег.
   </video>
 
   <!-- Фоновое видео для блоков 1-4 -->
@@ -297,27 +369,27 @@
     <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpiZjZmMmU4ZS01YjM0LTQ5NjktYTMyMS1mNDg1ZWE2YTA2Nzk=/mobile%20bg-_2.webm" type="video/webm">
     <!-- Альтернативный формат видео для лучшей совместимости -->
     <!-- <source src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/mobile-bg-2.mp4" type="video/mp4"> -->
-    Your browser does not support the video tag.
+    Ваш браузер не поддерживает видео тег.
   </video>
 
   <!-- Навигационная панель -->
   <div class="navbar">
     <!-- Верхняя строка с тремя изображениями -->
     <div class="top-buttons">
-      <a href="#" onclick="showSection('block1')" aria-label="Go to Block 1">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Block 1">
+      <a href="#" onclick="showSection('block1')" aria-label="Перейти к Блоку 1">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo5MGIzZmU2Yi0zYzYwLTRhMzEtOGYzYi0xZGZlYTkyZWY2MmE=/roadmap.svg" alt="Блок 1">
       </a>
-      <a href="#" onclick="showSection('block2')" aria-label="Go to Block 2">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="Block 2">
+      <a href="#" onclick="showSection('block2')" aria-label="Перейти к Блоку 2">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZTRjNzMyNS05Nzk2LTQwYjQtYmE0MC01Y2Y5YzE5OGVkYjY=/about.svg" alt="Блок 2">
       </a>
-      <a href="#" onclick="showSection('block3')" aria-label="Go to Block 3">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Block 3">
+      <a href="#" onclick="showSection('block3')" aria-label="Перейти к Блоку 3">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo1OTE4MWI5Ny1iZTFjLTQ3NmItODQ5NC01NDI2MDFmZGUyY2E=/contact.svg" alt="Блок 3">
       </a>
     </div>
     <!-- Нижняя строка с одной большой кнопкой -->
     <div class="bottom-button">
-      <a href="#" onclick="showSection('block4')" aria-label="Go to Block 4">
-        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Block 4">
+      <a href="#" onclick="showSection('block4')" aria-label="Перейти к Блоку 4">
+        <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTpjMDc5M2M4YS03YWVlLTQyZGEtYTkxMS0zNTg3NzUzNTc4ZGY=/Balenciaga.svg" alt="Блок 4">
       </a>
     </div>
   </div>
@@ -345,7 +417,7 @@
     <!-- Блок 1 -->
     <div id="block1" class="section">
       <!-- Кнопка Home -->
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC07NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
     </div>
 
     <!-- Блок 2 -->
@@ -394,6 +466,27 @@
         blocksVideo.style.display = 'block';
       }
     }
+
+    // Функция для скрытия загрузочной страницы и отображения основного контента
+    document.addEventListener('DOMContentLoaded', () => {
+      const preloader = document.getElementById('preloader');
+      const preloaderImage = document.getElementById('preloader-image');
+
+      preloaderImage.addEventListener('click', () => {
+        // Плавное скрытие загрузочной страницы
+        preloader.classList.add('hidden');
+
+        // После завершения анимации скрываем элемент полностью
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 500);
+
+        // Дополнительно можно начать воспроизведение видео или других ресурсов
+        // Например, если видео не автозапускается, можно добавить:
+        // const homeVideo = document.querySelector('.home-video');
+        // homeVideo.play();
+      });
+    });
 
     // Инициализация: показать Home видео и скрыть blocks видео
     document.addEventListener('DOMContentLoaded', () => {
