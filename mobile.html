@@ -57,21 +57,26 @@
     /* Верхняя строка с тремя изображениями */
     .navbar .top-buttons {
       display: flex;
-      justify-content: center;
+      justify-content: space-around; /* Равномерное распределение кнопок */
+      width: 100%; /* Занимает всю ширину */
       margin-top: 2px; /* Отступ сверху 2px */
-      margin-bottom: 15px; /* Отступ снизу 15px */
-      gap: 50px; /* Расстояние между кнопками 50px */
+      padding: 0 10px; /* Отступы по бокам */
+      box-sizing: border-box; /* Включаем паддинги в ширину */
+      gap: 5px; /* Исходный отступ между кнопками */
     }
 
     .navbar .top-buttons a {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex: 1; /* Равномерное распределение пространства */
+      margin: 0 5px; /* Небольшие отступы между кнопками */
     }
 
     .navbar .top-buttons img {
-      width: 160px; /* Размер увеличен */
-      height: 160px; /* Размер увеличен */
+      max-width: 100%; /* Адаптивная ширина */
+      height: auto; /* Автоматическая высота для сохранения пропорций */
+      max-height: 160px; /* Максимальная высота */
       cursor: pointer;
       background: transparent; /* Прозрачный фон */
     }
@@ -84,6 +89,8 @@
       margin-top: 15px; /* Отступ сверху 15px */
       position: relative; /* Добавлено для относительного позиционирования */
       top: -30px; /* Поднимаем на 30px вверх */
+      padding: 0 10px; /* Отступы по бокам */
+      box-sizing: border-box; /* Включаем паддинги в ширину */
     }
 
     .navbar .bottom-button a {
@@ -185,8 +192,8 @@
     /* Адаптивные стили для мобильных устройств */
     @media (max-width: 600px) {
       .navbar .top-buttons img {
-        width: 90px; /* Уменьшено для мобильных устройств */
-        height: 90px;
+        max-height: 90px; /* Уменьшено для мобильных устройств */
+        margin-bottom: 25px; /* Отступ снизу 25px */
       }
 
       .navbar .bottom-button img {
@@ -225,9 +232,17 @@
 
     /* Дополнительные стили для очень маленьких экранов (например, iPhone SE) */
     @media (max-width: 375px) {
+      .navbar .top-buttons {
+        gap: 25px; /* Добавляем расстояние 25px между верхними кнопками */
+      }
+
+      .navbar .top-buttons a {
+        margin: 0; /* Убираем существующие отступы */
+      }
+
       .home-extra-button {
         position: fixed; /* Закрепляем кнопку внизу экрана */
-        bottom: 90px; /* Отступ снизу 20px */
+        bottom: 90px; /* Отступ снизу 90px */
         left: 50%;
         transform: translateX(-50%);
         width: 180px; /* Дополнительное уменьшение размера */
@@ -242,8 +257,7 @@
       }
     
       .navbar .top-buttons img {
-        width: 90px;
-        height: 90px;
+        max-height: 90px;
       }
     
       .navbar .bottom-button img {
@@ -319,8 +333,6 @@
         <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3ZDMyZDkzYy1mYWNkLTQxZGQtOThmNS03NWUyYjRjY2ZhZjI=/Component%207.svg" alt="Дополнительная кнопка" class="home-extra-button">
       </a>
 
-      <!-- Удалена кнопка Home с главной страницы -->
-
       <!-- Бегущая строка -->
       <div class="marquee">
         <div class="marquee-content">
@@ -339,19 +351,19 @@
     <!-- Блок 2 -->
     <div id="block2" class="section">
       <!-- Кнопка Home -->
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC07NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
     </div>
 
     <!-- Блок 3 -->
     <div id="block3" class="section">
       <!-- Кнопка Home -->
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC07NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
     </div>
 
     <!-- Блок 4 -->
     <div id="block4" class="section">
       <!-- Кнопка Home -->
-      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC03NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
+      <img src="https://storage.googleapis.com/s.mkswft.com/RmlsZTo3MjQ2MTVjMS0wZjdmLTQyYWUtOGMzMC07NmMxZmE1NDU2ZGQ=/HOME.svg" alt="Home" class="home-button" onclick="showSection('home')">
     </div>
   </div>
 
